@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Maze.cs" />
+    <Compile Include="Assets\Scripts\Final.cs" />
     <Compile Include="Assets\Scripts\Cell.cs" />
     <Compile Include="Assets\Scripts\Container1.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />

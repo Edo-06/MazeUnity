@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum Category
 {
@@ -7,16 +8,19 @@ public enum Category
     obstacle,
     key,
     tramp,
+    final,
 }
 public class Cell
 {
     public GameObject WallObject;
     public Category category;
     public int type;
+    public string modo;
 
-    public Cell(Category cat, int ty = 0)
+    public Cell(Category cat, int ty = 0, string mod = " ")
 
     {
+        modo = mod;
         category = cat;
         type = ty;
     }

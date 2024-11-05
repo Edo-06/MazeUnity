@@ -7,9 +7,11 @@ public class Maze
 {
     private List<int[]> usedcells = new List<int[]>();
         private System.Random random = new System.Random();
-        private int size, type; 
+        public int size = 5;
+        private int type; 
         public Cell[,] mazee;
         private List<int> obstacleTypes = new List<int>();
+        
 
         public void Generator(int mazesize)
         {
@@ -148,14 +150,22 @@ public class Maze
         private void ValidatePosition(int row, int col, Category category )
         {
             if((mazee[row + 1, col].category == Category.wall && mazee[row - 1, col].category == Category.wall && 
-            mazee[row, col + 1].category == Category.floor && mazee[row, col - 1].category == Category.floor) ||
-            (mazee[row + 1, col].category == Category.floor && mazee[row - 1, col].category == Category.floor && 
+            mazee[row, col + 1].category == Category.floor && mazee[row, col - 1].category == Category.floor))
+            {
+                mazee[row, col].category = category;
+                type =  random.Next(0, 3);
+                mazee[row, col].type = type;
+                AddObstacleType(type);
+                mazee[row, col].modo = "horizontal";
+            }
+            if((mazee[row + 1, col].category == Category.floor && mazee[row - 1, col].category == Category.floor && 
             mazee[row, col + 1].category == Category.wall && mazee[row, col - 1].category == Category.wall))
             {
                 mazee[row, col].category = category;
                 type =  random.Next(0, 3);
                 mazee[row, col].type = type;
                 AddObstacleType(type);
+                mazee[row, col].modo = "vertical";
             }
         }
     }
