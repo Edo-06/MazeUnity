@@ -11,6 +11,7 @@ public class Gamer1 : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        transform.position = new Vector3(-1, 0.5f, -1);
     }
 
     // Update is called once per frame

@@ -48,3 +48,5 @@ MonoBehaviour:
     type: 3}
   ObstacleObject: {fileID: 5149626483440722248, guid: e369c6b83ccb8724f8a2996974d75e66,
     type: 3}
+  LimitObject: {fileID: 3891961222058666568, guid: b19f61e3332ada94391678cb6fe1cac2,
+    type: 3}

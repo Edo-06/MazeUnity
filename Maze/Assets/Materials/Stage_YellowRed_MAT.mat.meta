@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cee7e002515fe2e4fa664057c02afdf9
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 174982
+  packageName: Chomp Man - 3D Game Kit & Tutorial
+  packageVersion: 1.0
+  assetPath: Assets/_ChompMan-PM/Materials/Enviornment/Stage_YellowRed_MAT.mat
+  uploadId: 385078
