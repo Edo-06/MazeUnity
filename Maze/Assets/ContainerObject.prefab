@@ -44,4 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288e05525b13b8d49a64ce3f82f16a7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WallObject: {fileID: 252739079829612376, guid: a8b3d5fe4da23d5439e59eab62c59aa9, type: 3}
+  WallObject: {fileID: 252739079829612376, guid: a8b3d5fe4da23d5439e59eab62c59aa9,
+    type: 3}
+  ObstacleObject: {fileID: 5149626483440722248, guid: e369c6b83ccb8724f8a2996974d75e66,
+    type: 3}
