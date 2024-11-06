@@ -53,15 +53,17 @@ public class Container1 : MonoBehaviour
                 switch (maze.mazee[i,j].category)
                 {
                     case Category.wall:
-                       // GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
-                       // wall.transform.localScale = new Vector3(1, 1, 1); // Ajusta el tamaño si es necesario
+                        GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
+                       wall.transform.localScale = new Vector3(1, 1, 1); // Ajusta el tamaño si es necesario
                         break;
                     case Category.floor:
                         break;
                     case Category.obstacle:
                         switch(maze.mazee[i,j].type)
                         {   case "type0":
-                                GameObject obstacle0 = Instantiate(ObstacleObject1, new Vector3(i, 0, j), Quaternion.identity);
+                                GameObject obstacle0 = Instantiate(ObstacleObject0, new Vector3(i, 0, j), Quaternion.identity);
+                                Obstacle obstacle0c = obstacle0.GetComponent<Obstacle>();
+                                obstacle0c.type = "type0";
                             if(maze.mazee[i,j].modo == "vertical")
                                 obstacle0.transform.localScale = new Vector3(0.2f, 0.5f, 1);
                             else
@@ -69,6 +71,8 @@ public class Container1 : MonoBehaviour
                             break;
                             case "type1":
                             GameObject obstacle1 = Instantiate(ObstacleObject1, new Vector3(i, 0, j), Quaternion.identity);
+                            Obstacle obstacle1c = obstacle1.GetComponent<Obstacle>();
+                            obstacle1c.type = "type1";
                             if(maze.mazee[i,j].modo == "vertical")
                                 obstacle1.transform.localScale = new Vector3(0.2f, 0.5f, 1);
                             else
@@ -76,6 +80,8 @@ public class Container1 : MonoBehaviour
                             break;
                             case  "type2":
                             GameObject obstacle2 = Instantiate(ObstacleObject2, new Vector3(i, 0, j), Quaternion.identity);
+                            Obstacle obstacle2c = obstacle2.GetComponent<Obstacle>();
+                            obstacle2c.type = "type2";
                             if(maze.mazee[i,j].modo == "vertical")
                                 obstacle2.transform.localScale = new Vector3(0.2f, 0.5f, 1);
                             else
