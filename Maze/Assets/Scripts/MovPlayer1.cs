@@ -1,9 +1,11 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class MovPlayer1 : MonoBehaviour
 {
+    public List<string> keys; 
     public Rigidbody rigidbody;
     public float speed = 10;
     public float rotationSpeed = 128;
@@ -12,6 +14,7 @@ public class MovPlayer1 : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        keys = new List<string>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         //rigidbody.MovePosition(new Vector3(2,0.5f,2));

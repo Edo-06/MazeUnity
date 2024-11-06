@@ -53,8 +53,8 @@ public class Container1 : MonoBehaviour
                 switch (maze.mazee[i,j].category)
                 {
                     case Category.wall:
-                        GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
-                        wall.transform.localScale = new Vector3(1, 1, 1); // Ajusta el tamaño si es necesario
+                       // GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
+                       // wall.transform.localScale = new Vector3(1, 1, 1); // Ajusta el tamaño si es necesario
                         break;
                     case Category.floor:
                         break;
@@ -94,14 +94,20 @@ public class Container1 : MonoBehaviour
                             case "type0":
                                 GameObject key0 = Instantiate(Key0, new Vector3(i, 0.25f, j), Quaternion.identity);
                                 key0.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+                                Key key0C =  key0.GetComponent<Key>();
+                                key0C.type = "type0";
                                 break;
                             case  "type1":
                                 GameObject key1 = Instantiate(Key1, new Vector3(i, 0.25f, j), Quaternion.identity);
                                 key1.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+                                Key key1C =  key1.GetComponent<Key>();
+                                key1C.type = "type1";
                                 break;
                             case   "type2":
                                 GameObject key2 = Instantiate(Key2, new Vector3(i, 0.25f, j), Quaternion.identity);
                                 key2.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+                                Key key2C =  key2.GetComponent<Key>();
+                                key2C.type = "type2";
                                 break;
                         }
                         break;
