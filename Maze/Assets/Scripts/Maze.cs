@@ -1,16 +1,17 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 
 public class Maze
 {
     private List<int[]> usedcells = new List<int[]>();
         private System.Random random = new System.Random();
-        public int size = 5;
-        private int type; 
+        public int size = 40;
+        private string[] type = {"type0", "type1", "type2"}; 
         public Cell[,] mazee;
-        private List<int> obstacleTypes = new List<int>();
+        private List<string> obstacleTypes = new List<string>();
         
 
         public void Generator(int mazesize)
@@ -61,6 +62,7 @@ public class Maze
             }
             AddObjects(Category.obstacle);
             AddObjects(Category.tramp);
+            Keys();
         }
 
         public void Print()
@@ -92,7 +94,7 @@ public class Maze
             
             List<int[]> neighbords = new List<int[]>();
 
-            for(int i=0; i < Math.Pow(size,2)/100; i++)
+            for(int i=0; i < Math.Pow(size,2)/70; i++)
             {
                 row = random.Next(1, size-2);
                 col = random.Next(1, size-2);
@@ -124,7 +126,7 @@ public class Maze
                 }
             }
         }
-        private void AddObstacleType(int type)
+        private void AddObstacleType(string type)
         {
             int i = 0 ;
             bool found = false;
@@ -142,8 +144,6 @@ public class Maze
                 }
                 if(!found)
                     obstacleTypes.Add(type);
-                
-            
             }
         }
 
@@ -153,20 +153,38 @@ public class Maze
             mazee[row, col + 1].category == Category.floor && mazee[row, col - 1].category == Category.floor))
             {
                 mazee[row, col].category = category;
-                type =  random.Next(0, 3);
-                mazee[row, col].type = type;
-                AddObstacleType(type);
+                mazee[row, col].type = type[random.Next(0, 3)];
+                AddObstacleType(mazee[row,col].type);
                 mazee[row, col].modo = "horizontal";
             }
             if((mazee[row + 1, col].category == Category.floor && mazee[row - 1, col].category == Category.floor && 
             mazee[row, col + 1].category == Category.wall && mazee[row, col - 1].category == Category.wall))
             {
                 mazee[row, col].category = category;
-                type =  random.Next(0, 3);
-                mazee[row, col].type = type;
-                AddObstacleType(type);
+                mazee[row, col].type = type[random.Next(0, 3)];
+                AddObstacleType(mazee[row,col].type);
                 mazee[row, col].modo = "vertical";
             }
+        }
+
+        private void Keys()
+        {
+            int row, col;
+            for(int i = 0; i < Math.Pow(size,2)/400 ; i++)
+            {
+                for(int j=0; j < obstacleTypes.Count;)
+                {
+                    row = random.Next(1, size-2);
+                    col = random.Next(1, size-2);
+                    if(mazee[row, col].category == Category.floor)
+                    {
+                        mazee[row, col].category = Category.key;
+                        mazee[row, col].type = obstacleTypes[j];
+                        j++;
+                    }
+                }
+            }
+
         }
     }
 

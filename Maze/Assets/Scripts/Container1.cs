@@ -8,10 +8,19 @@ using System.Runtime.CompilerServices;
 public class Container1 : MonoBehaviour
 {
     public GameObject WallObject;
-    public GameObject ObstacleObject;
+    public GameObject ObstacleObject0;
+    public  GameObject ObstacleObject1;
+    public  GameObject ObstacleObject2;
+
+
     public GameObject LimitObject;
     public GameObject FinalObject;
     public GameObject Player1;
+    public GameObject Key0;
+    public GameObject Key1;
+    public GameObject Key2;
+
+
     public Maze maze = new Maze();
     
 
@@ -50,17 +59,51 @@ public class Container1 : MonoBehaviour
                     case Category.floor:
                         break;
                     case Category.obstacle:
-                        GameObject obstacle = Instantiate(ObstacleObject, new Vector3(i, 0, j), Quaternion.identity);
-                        if(maze.mazee[i,j].modo == "vertical")
-                        obstacle.transform.localScale = new Vector3(0.2f, 0.5f, 1);
-                        else
-                            obstacle.transform.localScale = new Vector3(1, 0.5f, 0.2f);
+                        switch(maze.mazee[i,j].type)
+                        {   case "type0":
+                                GameObject obstacle0 = Instantiate(ObstacleObject1, new Vector3(i, 0, j), Quaternion.identity);
+                            if(maze.mazee[i,j].modo == "vertical")
+                                obstacle0.transform.localScale = new Vector3(0.2f, 0.5f, 1);
+                            else
+                                obstacle0.transform.localScale = new Vector3(1, 0.5f, 0.2f);
+                            break;
+                            case "type1":
+                            GameObject obstacle1 = Instantiate(ObstacleObject1, new Vector3(i, 0, j), Quaternion.identity);
+                            if(maze.mazee[i,j].modo == "vertical")
+                                obstacle1.transform.localScale = new Vector3(0.2f, 0.5f, 1);
+                            else
+                                obstacle1.transform.localScale = new Vector3(1, 0.5f, 0.2f);
+                            break;
+                            case  "type2":
+                            GameObject obstacle2 = Instantiate(ObstacleObject2, new Vector3(i, 0, j), Quaternion.identity);
+                            if(maze.mazee[i,j].modo == "vertical")
+                                obstacle2.transform.localScale = new Vector3(0.2f, 0.5f, 1);
+                            else
+                                obstacle2.transform.localScale = new Vector3(1, 0.5f, 0.2f);
+                            break;
+                        }
                         break;
+
+                        
                     case Category.final:
-                        GameObject final = Instantiate(FinalObject, new Vector3(i, 0.1f, j), Quaternion.identity);
+                        GameObject final = Instantiate(FinalObject, new Vector3(i, 0.5f, j), Quaternion.identity);
                     break;
                     case Category.key:
-                        //Console.Write("🗝️");
+                        switch(maze.mazee[i,j].type)
+                        {
+                            case "type0":
+                                GameObject key0 = Instantiate(Key0, new Vector3(i, 0.25f, j), Quaternion.identity);
+                                key0.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+                                break;
+                            case  "type1":
+                                GameObject key1 = Instantiate(Key1, new Vector3(i, 0.25f, j), Quaternion.identity);
+                                key1.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+                                break;
+                            case   "type2":
+                                GameObject key2 = Instantiate(Key2, new Vector3(i, 0.25f, j), Quaternion.identity);
+                                key2.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+                                break;
+                        }
                         break;
                     case Category.tramp:
                         //Console.Write("💀");

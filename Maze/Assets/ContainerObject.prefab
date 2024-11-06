@@ -46,10 +46,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WallObject: {fileID: 252739079829612376, guid: a8b3d5fe4da23d5439e59eab62c59aa9,
     type: 3}
-  ObstacleObject: {fileID: 5149626483440722248, guid: e369c6b83ccb8724f8a2996974d75e66,
+  ObstacleObject0: {fileID: 5149626483440722248, guid: e369c6b83ccb8724f8a2996974d75e66,
+    type: 3}
+  ObstacleObject1: {fileID: 3483389637353336161, guid: a443a07f383215c4a96191eb341a154a,
+    type: 3}
+  ObstacleObject2: {fileID: 6842178835437839112, guid: 1ff76ba4089ca0a41b477d6d0df120b1,
     type: 3}
   LimitObject: {fileID: 3891961222058666568, guid: b19f61e3332ada94391678cb6fe1cac2,
     type: 3}
   FinalObject: {fileID: 4522210055552320521, guid: 86cd1e0af9661f24e88f3ac35e876126,
     type: 3}
   Player1: {fileID: 303475615643290514, guid: 59287082f8157bc4588f0d2bedf4dcfb, type: 3}
+  Key0: {fileID: 3488002732556618048, guid: fb8d96df226408d4297e717a0e3ea8a2, type: 3}
+  Key1: {fileID: 1251353114522481715, guid: 6cd058d24e3e2c248a89283b2af2776b, type: 3}
+  Key2: {fileID: 4448123184397291684, guid: d18be603c12f9784d8fe93db62320530, type: 3}

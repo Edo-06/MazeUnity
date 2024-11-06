@@ -14,10 +14,10 @@ public class Cell
 {
     public GameObject WallObject;
     public Category category;
-    public int type;
+    public string type;
     public string modo;
 
-    public Cell(Category cat, int ty = 0, string mod = " ")
+    public Cell(Category cat, string ty = "", string mod = " ")
 
     {
         modo = mod;
