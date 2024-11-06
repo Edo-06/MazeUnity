@@ -49,10 +49,10 @@ public class Container1 : MonoBehaviour
                 {
                 switch (maze.mazee[i,j].category)
                 {
-                    /*case Category.wall:
+                    case Category.wall:
                         GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
                        wall.transform.localScale = new Vector3(1, 1, 1); // Ajusta el tamaño si es necesario
-                        break;*/
+                        break;
                     case Category.floor:
                         break;
                     case Category.obstacle:
@@ -206,7 +206,7 @@ public class Container1 : MonoBehaviour
             Final(size);
             Print(size);
             InitialPosition();
-            InitialPosition();
+            //InitialPosition();
         }
 }
 
