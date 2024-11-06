@@ -206,7 +206,7 @@ public class Container1 : MonoBehaviour
             Final(size);
             Print(size);
             InitialPosition();
-            //InitialPosition();
+            InitialPosition();
         }
 }
 

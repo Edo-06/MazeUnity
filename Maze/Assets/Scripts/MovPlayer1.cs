@@ -32,8 +32,8 @@ public class MovPlayer1 : MonoBehaviour
     void Start()
     {
         keys = new List<string>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         //rigidbody.MovePosition(new Vector3(2,0.5f,2));
     }
 

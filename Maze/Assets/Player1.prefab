@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keys: []
   rigidbody: {fileID: 272270836270908175}
-  playerCamera: {fileID: 0}
+  playerCamera: {fileID: 3742988954470893827}
   speed: 5
   rotationSpeed: 128
   i: 0
