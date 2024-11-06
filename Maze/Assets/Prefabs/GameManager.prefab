@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e532709c4346243b09b7e3e34237aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
   container: {fileID: 8107249680146498121, guid: 380b7de3fa481564c9979efb80557a21,
     type: 3}
-  size: 10
+  size: 40
