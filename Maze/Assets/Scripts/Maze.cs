@@ -6,12 +6,17 @@ using UnityEngine.UIElements;
 
 public class Maze
 {
+    
     private List<int[]> usedcells = new List<int[]>();
         private System.Random random = new System.Random();
-        public int size = 40;
+        public int size;
         private string[] type = {"type0", "type1", "type2"}; 
         public Cell[,] mazee;
         private List<string> obstacleTypes = new List<string>();
+        public Maze(int s)
+            {
+                size = s;
+            }
         
 
         public void Generator(int mazesize)

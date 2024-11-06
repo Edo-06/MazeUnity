@@ -7,9 +7,26 @@ public class MovPlayer1 : MonoBehaviour
 {
     public List<string> keys; 
     public Rigidbody rigidbody;
+    public Camera playerCamera;
     public float speed = 10;
     public float rotationSpeed = 128;
     public int i = 0;
+    public void TakeTurn()
+    {
+        Debug.Log("");
+    }
+    public void ActivateCamera()
+    {
+        playerCamera.gameObject.SetActive(true);
+    }
+    public void DeactivateCamera()
+    {
+        playerCamera.gameObject.SetActive(false);
+    }
+    /*public void DesactivatePlayer()
+    {
+        SetActive(false);
+    }*/
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,10 +43,13 @@ public class MovPlayer1 : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
         transform.Translate(new Vector3(horizontal, 0, vertical)*speed*Time.deltaTime);
-        float rotation = Input.GetAxis("Mouse X");
-        transform.Rotate(new Vector3(0, rotation,0)*Time.deltaTime*rotationSpeed);
+        float rotationy = Input.GetAxis("Mouse X");
+        float rotationx = Input.GetAxis("Mouse Y");
+        transform.Rotate(new Vector3(0, rotationy,0)*Time.deltaTime*rotationSpeed);
 
     }
+
+    
     
    /* void OnTriggerEnter(Collider other)
     {

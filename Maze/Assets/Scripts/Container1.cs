@@ -2,11 +2,14 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEditor;
+using System.ComponentModel;
 
 
 
 public class Container1 : MonoBehaviour
 {
+    public List<GameObject> playersC;
     public GameObject WallObject;
     public GameObject ObstacleObject0;
     public  GameObject ObstacleObject1;
@@ -19,21 +22,15 @@ public class Container1 : MonoBehaviour
     public GameObject Key0;
     public GameObject Key1;
     public GameObject Key2;
+    public int size;
 
 
-    public Maze maze = new Maze();
-    
+    public Maze maze;
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-            maze.Generator(maze.size);
-            Limit(maze.size);
-            Final(maze.size);
-            Print(maze.size);
-            InitialPosition();
-
             //GameObject wall = Instantiate(WallObject, new Vector3(5, 0, 5), Quaternion.identity);
                // wall.transform.localScale = new Vector3(1, 1, 1);
     }
@@ -52,10 +49,10 @@ public class Container1 : MonoBehaviour
                 {
                 switch (maze.mazee[i,j].category)
                 {
-                    case Category.wall:
+                    /*case Category.wall:
                         GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
                        wall.transform.localScale = new Vector3(1, 1, 1); // Ajusta el tamaño si es necesario
-                        break;
+                        break;*/
                     case Category.floor:
                         break;
                     case Category.obstacle:
@@ -163,18 +160,53 @@ public class Container1 : MonoBehaviour
             int i = 0;
             while(i < 1)
             {
-                x = random.Next(0,maze.size-1);
-                z = random.Next(0,maze.size-1);
-            if(maze.mazee[x,z].category == Category.floor)
+                x = random.Next(0,size-1);
+                z = random.Next(0,size-1);
+                if(maze.mazee[x,z].category == Category.floor)
+                {
+                    //Player1Rigidbody = Player1.GetComponent<Rigidbody>();
+                    //Player1Rigidbody.MovePosition(new Vector3(x, 0.5f, z));
+                    GameObject player = Instantiate(Player1, new Vector3(x, 0, z), Quaternion.identity);
+                    //MovPlayer1 player0 = player.GetComponent<MovPlayer1>();
+                    playersC.Add(player);
+                    i++;
+                    Debug.Log(player.transform.position);
+                }
+            }
+            
+        }
+
+        private void AddPlayer(GameObject player0)
+        {
+            int i = 0 ;
+            bool found = false;
+            if(playersC.Count == 0)
             {
-                //Player1Rigidbody = Player1.GetComponent<Rigidbody>();
-                //Player1Rigidbody.MovePosition(new Vector3(x, 0.5f, z));
-                GameObject player = Instantiate(Player1, new Vector3(x, 0, z), Quaternion.identity);
-                i++;
+                playersC.Add(player0);
+            } else 
+            {
+                while( !found && i < playersC.Count)
+                {
+                    if(player0 != playersC[i])
+                        i++;
+                    else
+                        found = true;
+                }
+                if(!found)
+                    playersC.Add(player0);
             }
-            }
-            Debug.Log("aaa");
-            Debug.Log(Player1.transform.position);
+        }
+
+        public void Init(int s)
+        {
+            size = s;
+            maze = new Maze(size);
+            maze.Generator(size);
+            Limit(size);
+            Final(size);
+            Print(size);
+            InitialPosition();
+            InitialPosition();
         }
 }
 

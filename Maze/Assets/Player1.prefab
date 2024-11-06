@@ -153,7 +153,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa976288e67d0940852fb98ab91266c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keys: []
   rigidbody: {fileID: 272270836270908175}
+  playerCamera: {fileID: 0}
   speed: 5
   rotationSpeed: 128
   i: 0
@@ -300,7 +302,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1827372841531911724}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &1936058509733374589
 MonoBehaviour:
   m_ObjectHideFlags: 0
