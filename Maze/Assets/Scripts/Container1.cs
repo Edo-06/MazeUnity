@@ -19,6 +19,7 @@ public class Container1 : MonoBehaviour
     public GameObject LimitObject;
     public GameObject FinalObject;
     public GameObject Player1;
+    public GameObject Player2;
     public GameObject Key0;
     public GameObject Key1;
     public GameObject Key2;
@@ -151,7 +152,7 @@ public class Container1 : MonoBehaviour
         }  
     }
 
-    void InitialPosition()
+    void InitialPosition(GameObject playerObject)
         {
             //Rigidbody Player1Rigidbody;
             System.Random random = new System.Random();
@@ -166,7 +167,7 @@ public class Container1 : MonoBehaviour
                 {
                     //Player1Rigidbody = Player1.GetComponent<Rigidbody>();
                     //Player1Rigidbody.MovePosition(new Vector3(x, 0.5f, z));
-                    GameObject player = Instantiate(Player1, new Vector3(x, 0, z), Quaternion.identity);
+                    GameObject player = Instantiate(playerObject, new Vector3(x, 0, z), Quaternion.identity);
                     //MovPlayer1 player0 = player.GetComponent<MovPlayer1>();
                     playersC.Add(player);
                     i++;
@@ -205,8 +206,8 @@ public class Container1 : MonoBehaviour
             Limit(size);
             Final(size);
             Print(size);
-            InitialPosition();
-            InitialPosition();
+            InitialPosition(Player1);
+            InitialPosition(Player2);
         }
 }
 
