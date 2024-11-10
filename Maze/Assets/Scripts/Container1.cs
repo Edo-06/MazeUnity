@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 public class Container1 : MonoBehaviour
 {
-    public List<GameObject> playersC;
+    public List<GameObject[]> playersC;
     public GameObject WallObject;
     public GameObject ObstacleObject0;
     public  GameObject ObstacleObject1;
@@ -150,7 +150,7 @@ public class Container1 : MonoBehaviour
         }  
     }
 
-    void InitialPosition(GameObject playerObject)
+    void InitialPosition(GameObject player1, GameObject player2)
         {
             //Rigidbody Player1Rigidbody;
             System.Random random = new System.Random();
@@ -165,21 +165,28 @@ public class Container1 : MonoBehaviour
                 {
                     //Player1Rigidbody = Player1.GetComponent<Rigidbody>();
                     //Player1Rigidbody.MovePosition(new Vector3(x, 0.5f, z));
-                    MovPlayer1 originalPlayerComponent = playerObject.GetComponent<MovPlayer1>();
-                    GameObject player = Instantiate(playerObject, new Vector3(x, 0, z), Quaternion.identity);
-                    MovPlayer1 player0 = player.GetComponent<MovPlayer1>();
-                    player0.character = originalPlayerComponent.character;
-                    Debug.Log(player0.character.skill);
+                    MovPlayer1 originalPlayerComponent1 = player1.GetComponent<MovPlayer1>();
+                    GameObject p1 = Instantiate(player1, new Vector3(x, 0, z), Quaternion.identity);
+                    MovPlayer1 p01 = p1.GetComponent<MovPlayer1>();
+                    p01.character = originalPlayerComponent1.character;
+                    //Debug.Log(player0.character.skill);
+                    MovPlayer1 originalPlayerComponent2 = player2.GetComponent<MovPlayer1>();
+                    GameObject p2 = Instantiate(player2, new Vector3(x, 0, z), Quaternion.identity);
+                    MovPlayer1 p02 = p2.GetComponent<MovPlayer1>();
+                    p02.character = originalPlayerComponent2.character;
                     //MovPlayer1 player0 = player.GetComponent<MovPlayer1>();
-                    playersC.Add(player);
+                    GameObject[] newPlayer = new GameObject[2];
+                    newPlayer[0] = p1;
+                    newPlayer[1] = p2;
+                    playersC.Add(newPlayer);
                     i++;
-                    Debug.Log(player.transform.position);
+                    //Debug.Log(p1.transform.position);
                 }
             }
             
         }
 
-        private void AddPlayer(GameObject player0)
+        private void AddPlayer(GameObject[] player0)
         {
             int i = 0 ;
             bool found = false;
@@ -200,7 +207,7 @@ public class Container1 : MonoBehaviour
             }
         }
 
-        public void Init(int s, GameObject Player1, GameObject Player2)
+        public void Init(int s, GameObject player0, GameObject player1, GameObject player3, GameObject player4)
         {
             size = s;
             maze = new Maze(size);
@@ -208,8 +215,8 @@ public class Container1 : MonoBehaviour
             Limit(size);
             Final(size);
             Print(size);
-            InitialPosition(Player1);
-            InitialPosition(Player2);
+            InitialPosition(player0,player1);
+            InitialPosition(player3,player4);
         }
 
         

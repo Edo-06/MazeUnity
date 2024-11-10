@@ -21,12 +21,12 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"Terminando turno. Jugador actual: {currentPlayer}, Total de jugadores: {Global.players.Count}");
 
-        Global.players[currentPlayer].SetActive(false);
+        Global.players[currentPlayer][0].SetActive(false);
         currentPlayer = (currentPlayer + 1) % Global.players.Count;
 
         Debug.Log($"Nuevo jugador activo: {currentPlayer}");
 
-        Global.players[currentPlayer].SetActive(true);
+        Global.players[currentPlayer][0].SetActive(true);
         
         StartTurn();
     }
@@ -35,8 +35,8 @@ public class GameManager : MonoBehaviour
     {
         InitPlayers();
         Container1 container0 = container.GetComponent<Container1>();
-        container0.playersC = new List<GameObject>();
-        container0.Init(size,Player5, Player2);
+        container0.playersC = new List<GameObject[]>();
+        container0.Init(size,Player2,Player1,Player3,Player4);
         Global.players = container0.playersC;
         Debug.Log($"el count es {Global.players.Count}");
         ActivePlayer();
@@ -53,17 +53,19 @@ public class GameManager : MonoBehaviour
     {
         //ActivePlayer();
         ChangeCamera();
-        MovPlayer1 player0 = Global.players[currentPlayer].GetComponent<MovPlayer1>();
+        MovPlayer1 player0 = Global.players[currentPlayer][0].GetComponent<MovPlayer1>();
         player0.TakeTurn();
     }
     void ChangeCamera()
     {
         foreach (var player in Global.players)
         {
-            MovPlayer1 player0 = player.GetComponent<MovPlayer1>();
+            MovPlayer1 player0 = player[0].GetComponent<MovPlayer1>();
+            MovPlayer1 player01 = player[1].GetComponent<MovPlayer1>();
             player0.DeactivateCamera();
+            player01.DeactivateCamera();
         }
-        MovPlayer1 player1 = Global.players[currentPlayer].GetComponent<MovPlayer1>();
+        MovPlayer1 player1 = Global.players[currentPlayer][0].GetComponent<MovPlayer1>();
         player1.ActivateCamera();
         //Camera.main.transform.position = Global.players[currentPlayer].transform.position + new Vector3(0,2,-6);
         //Camera.main.transform.LookAt(Global.players[currentPlayer].transform.position);
@@ -73,11 +75,12 @@ public class GameManager : MonoBehaviour
     {
         foreach (var player in Global.players)
             {
-                player.SetActive(false); 
+                player[0].SetActive(false);
+                player[1].SetActive(false);
             }
         if (Global.players.Count > 0)
         {
-            Global.players[currentPlayer].SetActive(true); 
+            Global.players[currentPlayer][0].SetActive(true); 
         }
     }
 
