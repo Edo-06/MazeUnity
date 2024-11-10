@@ -18,8 +18,6 @@ public class Container1 : MonoBehaviour
 
     public GameObject LimitObject;
     public GameObject FinalObject;
-    public GameObject Player1;
-    public GameObject Player2;
     public GameObject Key0;
     public GameObject Key1;
     public GameObject Key2;
@@ -52,7 +50,7 @@ public class Container1 : MonoBehaviour
                 {
                     case Category.wall:
                         GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
-                       wall.transform.localScale = new Vector3(1, 1, 1); // Ajusta el tamaño si es necesario
+                        wall.transform.localScale = new Vector3(1, 1, 1); 
                         break;
                     case Category.floor:
                         break;
@@ -167,7 +165,11 @@ public class Container1 : MonoBehaviour
                 {
                     //Player1Rigidbody = Player1.GetComponent<Rigidbody>();
                     //Player1Rigidbody.MovePosition(new Vector3(x, 0.5f, z));
+                    MovPlayer1 originalPlayerComponent = playerObject.GetComponent<MovPlayer1>();
                     GameObject player = Instantiate(playerObject, new Vector3(x, 0, z), Quaternion.identity);
+                    MovPlayer1 player0 = player.GetComponent<MovPlayer1>();
+                    player0.character = originalPlayerComponent.character;
+                    Debug.Log(player0.character.skill);
                     //MovPlayer1 player0 = player.GetComponent<MovPlayer1>();
                     playersC.Add(player);
                     i++;
@@ -198,7 +200,7 @@ public class Container1 : MonoBehaviour
             }
         }
 
-        public void Init(int s)
+        public void Init(int s, GameObject Player1, GameObject Player2)
         {
             size = s;
             maze = new Maze(size);
@@ -209,6 +211,8 @@ public class Container1 : MonoBehaviour
             InitialPosition(Player1);
             InitialPosition(Player2);
         }
+
+        
 }
 
 

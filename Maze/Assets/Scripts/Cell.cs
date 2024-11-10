@@ -17,7 +17,7 @@ public class Cell
     public string type;
     public string modo;
 
-    public Cell(Category cat, string ty = "", string mod = " ")
+    public Cell(Category cat, string ty = " ", string mod = " ") //mod = pocision de las puertas
 
     {
         modo = mod;

@@ -88,6 +88,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5181155767941928675, guid: 59287082f8157bc4588f0d2bedf4dcfb,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 6855276354767800535, guid: 59287082f8157bc4588f0d2bedf4dcfb,
+        type: 3}
+      propertyPath: m_Direction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

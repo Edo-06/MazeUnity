@@ -2,12 +2,14 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
 
     private int currentPlayer = 0;
     public GameObject container;
+    public GameObject Player1, Player2, Player3, Player4, Player5, Player6, Player7, Player8, Player9, Player10;
     public int size = 5;
     public void EndTurn()
     {
@@ -31,9 +33,10 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        InitPlayers();
         Container1 container0 = container.GetComponent<Container1>();
         container0.playersC = new List<GameObject>();
-        container0.Init(size);
+        container0.Init(size,Player5, Player2);
         Global.players = container0.playersC;
         Debug.Log($"el count es {Global.players.Count}");
         ActivePlayer();
@@ -76,6 +79,31 @@ public class GameManager : MonoBehaviour
         {
             Global.players[currentPlayer].SetActive(true); 
         }
+    }
+
+    void InitPlayers()
+    {
+        InitPLayer(Player1, 100, 10, "s1");
+        InitPLayer(Player2, 100, 10, "s2");
+        InitPLayer(Player3, 100, 10, "s3");
+        InitPLayer(Player4, 100, 10, "s4");
+        InitPLayer(Player5, 100, 10, "s5");
+        InitPLayer(Player6, 100, 10, "s6");
+        InitPLayer(Player7, 100, 10, "s7");
+        InitPLayer(Player8, 100, 10, "s8");
+        InitPLayer(Player9, 100, 10, "s9");
+        InitPLayer(Player10, 100, 10, "s10");
+
+        
+    }
+
+        
+
+    void InitPLayer(GameObject player, float health, float speed, string skill)
+    {
+        MovPlayer1 player1 = player.GetComponent<MovPlayer1>();
+        player1.character = new Character(health, speed, skill);
+       // Debug.Log(player1.character.skill);
     }
 
 
