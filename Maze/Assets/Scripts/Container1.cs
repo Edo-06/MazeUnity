@@ -167,11 +167,13 @@ public class Container1 : MonoBehaviour
                     //Player1Rigidbody.MovePosition(new Vector3(x, 0.5f, z));
                     MovPlayer1 originalPlayerComponent1 = player1.GetComponent<MovPlayer1>();
                     GameObject p1 = Instantiate(player1, new Vector3(x, 0, z), Quaternion.identity);
+                    p1.transform.localScale = new Vector3(0.05f, 0.05f, 0.08f);
                     MovPlayer1 p01 = p1.GetComponent<MovPlayer1>();
                     p01.character = originalPlayerComponent1.character;
                     //Debug.Log(player0.character.skill);
                     MovPlayer1 originalPlayerComponent2 = player2.GetComponent<MovPlayer1>();
                     GameObject p2 = Instantiate(player2, new Vector3(x, 0, z), Quaternion.identity);
+                    p2.transform.localScale = new Vector3(0.05f, 0.05f, 0.08f);
                     MovPlayer1 p02 = p2.GetComponent<MovPlayer1>();
                     p02.character = originalPlayerComponent2.character;
                     //MovPlayer1 player0 = player.GetComponent<MovPlayer1>();

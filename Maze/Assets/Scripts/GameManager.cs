@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     private int currentPlayer = 0;
     public GameObject container;
+    public GameObject map;
+    public Transform grid;
     public GameObject Player1, Player2, Player3, Player4, Player5, Player6, Player7, Player8, Player9, Player10;
     public int size = 5;
     public void EndTurn()
@@ -38,6 +40,8 @@ public class GameManager : MonoBehaviour
         container0.playersC = new List<GameObject[]>();
         container0.Init(size,Player2,Player1,Player3,Player4);
         Global.players = container0.playersC;
+        MazeMap map0 = map.GetComponent<MazeMap>();
+        map0.UpdateUI(grid);
         Debug.Log($"el count es {Global.players.Count}");
         ActivePlayer();
         StartTurn();

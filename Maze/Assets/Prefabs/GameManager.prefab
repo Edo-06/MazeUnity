@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   container: {fileID: 8107249680146498121, guid: 380b7de3fa481564c9979efb80557a21,
     type: 3}
+  map: {fileID: 3647620446055409104, guid: f93cb6f87a2d94d47a01f9c90de0e46b, type: 3}
+  grid: {fileID: 2302934540189796419, guid: c1f4320744c83364d821677f35dc50a4, type: 3}
   Player1: {fileID: 303475615643290514, guid: 59287082f8157bc4588f0d2bedf4dcfb, type: 3}
   Player2: {fileID: 4470014886086278475, guid: 368d3cd73726dd2448b92686a551b547, type: 3}
   Player3: {fileID: 2122894649145566293, guid: 40aec9cdaf608c343bdeb8c66c9ed78a, type: 3}
