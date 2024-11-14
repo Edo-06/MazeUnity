@@ -41,11 +41,11 @@ public class MazeMap : MonoBehaviour
 
                 if (container0.maze.mazee[i, j].category == Category.wall)
                 {
-                    cellImage.color = new Color(0f, 0f, 0f, 0.1f);
+                    cellImage.color = new Color(0f, 0f, 0f, 0.7f);
                 }
                 else
                 {
-                    cellImage.color = Color.white;/*new Color(1f, 1f, 1f, 0.5f);*/
+                    cellImage.color = new Color(1f, 1f, 1f, 0.5f);
                 }
             }
         }

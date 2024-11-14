@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using System;
-using UnityEditor.Callbacks;
 
 public class MovPlayer1 : MonoBehaviour
 {

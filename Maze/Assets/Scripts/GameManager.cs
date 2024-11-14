@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Terminando turno. Jugador actual: {currentPlayer}, Total de jugadores: {Global.players.Count}");
+        Debug.Log($"Terminando turno Jugador actual: {currentPlayer}, Total de jugadores: {Global.players.Count}");
 
         Global.players[currentPlayer][0].SetActive(false);
         currentPlayer = (currentPlayer + 1) % Global.players.Count;

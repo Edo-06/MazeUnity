@@ -75,9 +75,9 @@
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\MovPlayer1.cs" />
     <Compile Include="Assets\Scripts\Global.cs" />
-    <Compile Include="Assets\Scripts\Map.cs" />
     <Compile Include="Assets\Scripts\Key.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Menu.cs" />
     <Compile Include="Assets\Scripts\Rotate.cs" />
     <Compile Include="Assets\Scripts\TurnButton.cs" />
   </ItemGroup>

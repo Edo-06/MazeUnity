@@ -59,4 +59,4 @@ MonoBehaviour:
   Player9: {fileID: 8385411389490666824, guid: dc4f1012e3f4bf54a882a5c9fe0a5e4e, type: 3}
   Player10: {fileID: 3195849843336760398, guid: e48ea6fe9519886489342e1f19972918,
     type: 3}
-  size: 40
+  size: 25
