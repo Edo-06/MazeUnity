@@ -3,12 +3,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UIElements;
 
 public class MovPlayer1 : MonoBehaviour
 {
     public List<string> keys; 
     public Rigidbody rigidbody;
     public Camera playerCamera;
+    public GameManager gameManager;
     public float speed = 10;
     public float rotationSpeed = 128;
     public int i = 0;
@@ -49,6 +51,11 @@ public class MovPlayer1 : MonoBehaviour
         float rotationy = Input.GetAxis("Mouse X");
         float rotationx = Input.GetAxis("Mouse Y");
         transform.Rotate(new Vector3(0, rotationy,0)*Time.deltaTime*rotationSpeed);
+        if(transform.position ==  new Vector3(0, 0.2400f, 0))//poner en un rango 
+        {
+            gameManager.EndTurn();
+        }
+
 
     }
 

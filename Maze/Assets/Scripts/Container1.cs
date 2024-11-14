@@ -18,6 +18,7 @@ public class Container1 : MonoBehaviour
 
     public GameObject LimitObject;
     public GameObject FinalObject;
+    public GameObject Tramp;
     public GameObject Key0;
     public GameObject Key1;
     public GameObject Key2;
@@ -48,10 +49,10 @@ public class Container1 : MonoBehaviour
                 {
                 switch (maze.mazee[i,j].category)
                 {
-                    case Category.wall:
+                    /*case Category.wall:
                         GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
                         wall.transform.localScale = new Vector3(1, 1, 1); 
-                        break;
+                        break;*/
                     case Category.floor:
                         break;
                     case Category.obstacle:
@@ -114,7 +115,7 @@ public class Container1 : MonoBehaviour
                         }
                         break;
                     case Category.tramp:
-                        //Console.Write("💀");
+                        GameObject tramp = Instantiate(Tramp, new Vector3(i, 0.25f, j), Quaternion.identity);
                         break;
                 }
                 }

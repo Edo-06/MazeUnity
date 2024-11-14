@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: 2806922361967136091, guid: 59287082f8157bc4588f0d2bedf4dcfb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2806922361967136091, guid: 59287082f8157bc4588f0d2bedf4dcfb,
         type: 3}
@@ -88,6 +88,12 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5181155767941928675, guid: 59287082f8157bc4588f0d2bedf4dcfb,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 3115026016874365655, guid: 0f8a147260ca6e743939b0c23cca26bc,
+        type: 3}
     - target: {fileID: 5181155767941928675, guid: 59287082f8157bc4588f0d2bedf4dcfb,
         type: 3}
       propertyPath: rotationSpeed

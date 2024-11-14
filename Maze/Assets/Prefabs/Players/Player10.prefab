@@ -156,6 +156,8 @@ MonoBehaviour:
   keys: []
   rigidbody: {fileID: 4903775907239069295}
   playerCamera: {fileID: 1940464564630302396}
+  gameManager: {fileID: 3115026016874365655, guid: 0f8a147260ca6e743939b0c23cca26bc,
+    type: 3}
   speed: 5
   rotationSpeed: 128
   i: 0
