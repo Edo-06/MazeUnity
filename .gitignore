@@ -94,3 +94,4 @@
 [Aa]ssets/**/*.meta.meta
 [Aa]ssetsStore/
 Maze/UserSettings/Layouts/*.dwlt
+.config/
