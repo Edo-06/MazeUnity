@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 public class Container1 : MonoBehaviour
 {
-    public List<GameObject> playersC;
+    public List<GameObject[]> playersC;
     public GameObject WallObject;
     public GameObject ObstacleObject0;
     public  GameObject ObstacleObject1;
@@ -18,7 +18,6 @@ public class Container1 : MonoBehaviour
 
     public GameObject LimitObject;
     public GameObject FinalObject;
-    public GameObject Player1;
     public GameObject Key0;
     public GameObject Key1;
     public GameObject Key2;
@@ -51,7 +50,7 @@ public class Container1 : MonoBehaviour
                 {
                     case Category.wall:
                         GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
-                       wall.transform.localScale = new Vector3(1, 1, 1); // Ajusta el tamaño si es necesario
+                        wall.transform.localScale = new Vector3(1, 1, 1); 
                         break;
                     case Category.floor:
                         break;
@@ -151,7 +150,7 @@ public class Container1 : MonoBehaviour
         }  
     }
 
-    void InitialPosition()
+    void InitialPosition(GameObject player1, GameObject player2)
         {
             //Rigidbody Player1Rigidbody;
             System.Random random = new System.Random();
@@ -166,17 +165,30 @@ public class Container1 : MonoBehaviour
                 {
                     //Player1Rigidbody = Player1.GetComponent<Rigidbody>();
                     //Player1Rigidbody.MovePosition(new Vector3(x, 0.5f, z));
-                    GameObject player = Instantiate(Player1, new Vector3(x, 0, z), Quaternion.identity);
+                    MovPlayer1 originalPlayerComponent1 = player1.GetComponent<MovPlayer1>();
+                    GameObject p1 = Instantiate(player1, new Vector3(x, 0, z), Quaternion.identity);
+                    p1.transform.localScale = new Vector3(0.05f, 0.05f, 0.08f);
+                    MovPlayer1 p01 = p1.GetComponent<MovPlayer1>();
+                    p01.character = originalPlayerComponent1.character;
+                    //Debug.Log(player0.character.skill);
+                    MovPlayer1 originalPlayerComponent2 = player2.GetComponent<MovPlayer1>();
+                    GameObject p2 = Instantiate(player2, new Vector3(x, 0, z), Quaternion.identity);
+                    p2.transform.localScale = new Vector3(0.05f, 0.05f, 0.08f);
+                    MovPlayer1 p02 = p2.GetComponent<MovPlayer1>();
+                    p02.character = originalPlayerComponent2.character;
                     //MovPlayer1 player0 = player.GetComponent<MovPlayer1>();
-                    playersC.Add(player);
+                    GameObject[] newPlayer = new GameObject[2];
+                    newPlayer[0] = p1;
+                    newPlayer[1] = p2;
+                    playersC.Add(newPlayer);
                     i++;
-                    Debug.Log(player.transform.position);
+                    //Debug.Log(p1.transform.position);
                 }
             }
             
         }
 
-        private void AddPlayer(GameObject player0)
+        private void AddPlayer(GameObject[] player0)
         {
             int i = 0 ;
             bool found = false;
@@ -197,7 +209,7 @@ public class Container1 : MonoBehaviour
             }
         }
 
-        public void Init(int s)
+        public void Init(int s, GameObject player0, GameObject player1, GameObject player3, GameObject player4)
         {
             size = s;
             maze = new Maze(size);
@@ -205,9 +217,11 @@ public class Container1 : MonoBehaviour
             Limit(size);
             Final(size);
             Print(size);
-            InitialPosition();
-            //InitialPosition();
+            InitialPosition(player0,player1);
+            InitialPosition(player3,player4);
         }
+
+        
 }
 
 

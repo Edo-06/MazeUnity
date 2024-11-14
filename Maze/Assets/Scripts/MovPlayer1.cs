@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System;
 
 public class MovPlayer1 : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class MovPlayer1 : MonoBehaviour
     public float speed = 10;
     public float rotationSpeed = 128;
     public int i = 0;
+    public Character character;
+    private Rigidbody rb;
     public void TakeTurn()
     {
         Debug.Log("");
@@ -32,8 +35,8 @@ public class MovPlayer1 : MonoBehaviour
     void Start()
     {
         keys = new List<string>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         //rigidbody.MovePosition(new Vector3(2,0.5f,2));
     }
 

@@ -26,11 +26,13 @@ public class Obstacle : MonoBehaviour
                 Debug.Log("Tenias la llave, has pasado");
                 transform.localScale=new Vector3(0,0,0);
                 other0.keys.Remove(type);
+                
             }
             else 
             {
                 Debug.Log("Busca una llave de " + type);
             }
+            Debug.Log(other0.character.skill);
         }
     }
 
