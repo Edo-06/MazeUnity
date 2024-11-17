@@ -7,9 +7,9 @@ using UnityEngine.UIElements;
 public class Maze
 {
     
-    private List<int[]> usedcells = new List<int[]>();
+        private List<int[]> usedcells = new List<int[]>();
         private System.Random random = new System.Random();
-        public int size;
+        public static int size;
         private string[] type = {"type0", "type1", "type2"}; 
         public Cell[,] mazee;
         private List<string> obstacleTypes = new List<string>();
@@ -189,7 +189,61 @@ public class Maze
                     }
                 }
             }
-
         }
+
+        public List<int[]> BoundaryCells(float rowFloat, float colFloat, int distance)
+        {
+            int row = (int)rowFloat;
+            int col = (int)colFloat;
+
+
+            List<int[]> neighbords = new List<int[]>();
+            List<int[]> usedcells0 = new List<int[]>();
+            Neighborhod(neighbords, usedcells0, row, col);
+            List<int[]> boundary = Path(neighbords, usedcells0, distance);
+            return boundary;
+        }
+
+        private void Neighborhod(List<int[]> neighbords, List<int[]> usedcells0, int row, int col)
+        {
+            usedcells0.Add(new int[] {row, col});
+            if (row >= 1 && mazee[row - 1, col].category == Category.floor &&  !usedcells0.Contains(new int[] { row - 1, col }))
+                neighbords.Add(new int[] { row - 1, col });
+            if (col >= 1 && mazee[row, col - 1].category == Category.floor  && !usedcells0.Contains(new int[] { row, col - 1 }))
+                neighbords.Add(new int[] { row, col - 1 });
+            if (row <= size - 2 && mazee[row + 1, col].category == Category.floor  && !usedcells0.Contains(new int[] { row + 1, col }))
+                neighbords.Add(new int[] { row + 1, col });
+            if (col <= size - 2 && mazee[row, col + 1].category == Category.floor   && !usedcells0.Contains(new int[] { row, col + 1 }))
+                neighbords.Add(new int[] { row, col + 1 });
+        }
+
+        private List<int[]> Path(List<int[]> neighbords,List<int[]> usedcells0, int distance)
+        {
+            int x=0;
+            int y=0;
+            List<int[]> boundary = new List<int[]>();
+
+            if(distance == 0)
+            {
+                x = usedcells0[usedcells0.Count - 1][0];
+                y = usedcells0[usedcells0.Count - 1][1];
+                boundary.Add(new int[]{x, y});
+            }
+
+            if(neighbords.Count > 0)
+            {
+                for (int i = 0; i < neighbords.Count; i++)
+                {
+                    Neighborhod(neighbords, usedcells0, neighbords[i][0], neighbords[i][1]);
+                    if (distance > 0)
+                    {
+                        var result = Path(neighbords, usedcells0, distance - 1); 
+                        boundary.AddRange(result); 
+                    }
+                }
+            }
+            return boundary; 
+        }
+
     }
 

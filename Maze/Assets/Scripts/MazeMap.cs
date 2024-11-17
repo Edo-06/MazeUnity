@@ -39,7 +39,7 @@ public class MazeMap : MonoBehaviour
                 cell0.transform.SetParent(grid, false);
                 Image cellImage = cell0.GetComponent<Image>();
 
-                if (container0.maze.mazee[i, j].category == Category.wall)
+                if (Global.maze.mazee[i, j].category == Category.wall)
                 {
                     cellImage.color = new Color(0f, 0f, 0f, 0.7f);
                 }

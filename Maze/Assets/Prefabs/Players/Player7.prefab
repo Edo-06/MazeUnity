@@ -298,6 +298,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 128
   i: 0
+  container: {fileID: 8107249680146498121, guid: 380b7de3fa481564c9979efb80557a21,
+    type: 3}
 --- !u!20 &6557728223697135681
 Camera:
   m_ObjectHideFlags: 0

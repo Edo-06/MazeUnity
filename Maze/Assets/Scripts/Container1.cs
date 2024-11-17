@@ -25,7 +25,7 @@ public class Container1 : MonoBehaviour
     public int size;
 
 
-    public Maze maze;
+    
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -47,21 +47,21 @@ public class Container1 : MonoBehaviour
             {
                 for (int j = 0; j < size; j++)
                 {
-                switch (maze.mazee[i,j].category)
+                switch (Global.maze.mazee[i,j].category)
                 {
-                    /*case Category.wall:
+                    case Category.wall:
                         GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
                         wall.transform.localScale = new Vector3(1, 1, 1); 
-                        break;*/
+                        break;
                     case Category.floor:
                         break;
                     case Category.obstacle:
-                        switch(maze.mazee[i,j].type)
+                        switch(Global.maze.mazee[i,j].type)
                         {   case "type0":
                                 GameObject obstacle0 = Instantiate(ObstacleObject0, new Vector3(i, 0, j), Quaternion.identity);
                                 Obstacle obstacle0c = obstacle0.GetComponent<Obstacle>();
                                 obstacle0c.type = "type0";
-                            if(maze.mazee[i,j].modo == "vertical")
+                            if(Global.maze.mazee[i,j].modo == "vertical")
                                 obstacle0.transform.localScale = new Vector3(0.2f, 0.5f, 1);
                             else
                                 obstacle0.transform.localScale = new Vector3(1, 0.5f, 0.2f);
@@ -70,7 +70,7 @@ public class Container1 : MonoBehaviour
                             GameObject obstacle1 = Instantiate(ObstacleObject1, new Vector3(i, 0, j), Quaternion.identity);
                             Obstacle obstacle1c = obstacle1.GetComponent<Obstacle>();
                             obstacle1c.type = "type1";
-                            if(maze.mazee[i,j].modo == "vertical")
+                            if(Global.maze.mazee[i,j].modo == "vertical")
                                 obstacle1.transform.localScale = new Vector3(0.2f, 0.5f, 1);
                             else
                                 obstacle1.transform.localScale = new Vector3(1, 0.5f, 0.2f);
@@ -79,7 +79,7 @@ public class Container1 : MonoBehaviour
                             GameObject obstacle2 = Instantiate(ObstacleObject2, new Vector3(i, 0, j), Quaternion.identity);
                             Obstacle obstacle2c = obstacle2.GetComponent<Obstacle>();
                             obstacle2c.type = "type2";
-                            if(maze.mazee[i,j].modo == "vertical")
+                            if(Global.maze.mazee[i,j].modo == "vertical")
                                 obstacle2.transform.localScale = new Vector3(0.2f, 0.5f, 1);
                             else
                                 obstacle2.transform.localScale = new Vector3(1, 0.5f, 0.2f);
@@ -92,7 +92,7 @@ public class Container1 : MonoBehaviour
                         GameObject final = Instantiate(FinalObject, new Vector3(i, 0.5f, j), Quaternion.identity);
                     break;
                     case Category.key:
-                        switch(maze.mazee[i,j].type)
+                        switch(Global.maze.mazee[i,j].type)
                         {
                             case "type0":
                                 GameObject key0 = Instantiate(Key0, new Vector3(i, 0.25f, j), Quaternion.identity);
@@ -143,10 +143,10 @@ public class Container1 : MonoBehaviour
         {
             x = random.Next(0,size);
             z = random.Next(0,size);
-            if(maze.mazee[x, z].category == Category.wall 
-            || maze.mazee[x, z].category == Category.floor)
+            if(Global.maze.mazee[x, z].category == Category.wall 
+            || Global.maze.mazee[x, z].category == Category.floor)
             {
-                    maze.mazee[x, z].category = Category.final;
+                    Global.maze.mazee[x, z].category = Category.final;
                 i++;}
         }  
     }
@@ -162,7 +162,7 @@ public class Container1 : MonoBehaviour
             {
                 x = random.Next(0,size-1);
                 z = random.Next(0,size-1);
-                if(maze.mazee[x,z].category == Category.floor)
+                if(Global.maze.mazee[x,z].category == Category.floor)
                 {
                     //Player1Rigidbody = Player1.GetComponent<Rigidbody>();
                     //Player1Rigidbody.MovePosition(new Vector3(x, 0.5f, z));
@@ -213,15 +213,67 @@ public class Container1 : MonoBehaviour
         public void Init(int s, GameObject player0, GameObject player1, GameObject player3, GameObject player4)
         {
             size = s;
-            maze = new Maze(size);
-            maze.Generator(size);
+            Global.maze = new Maze(size);
+            Global.maze.Generator(size);
             Limit(size);
             Final(size);
             Print(size);
             InitialPosition(player0,player1);
             InitialPosition(player3,player4);
         }
+        public List<int[]> BoundaryCells(float rowFloat, float colFloat, int distance)
+        {
+            int row = (int)rowFloat;
+            int col = (int)colFloat;
 
+
+            List<int[]> neighbords = new List<int[]>();
+            List<int[]> usedcells0 = new List<int[]>();
+            Neighborhod(neighbords, usedcells0, row, col);
+            List<int[]> boundary = Path(neighbords, usedcells0, distance);
+            return boundary;
+        }
+
+        private void Neighborhod(List<int[]> neighbords, List<int[]> usedcells0, int row, int col)
+        {
+            usedcells0.Add(new int[] {row, col});
+            if (row >= 1 && Global.maze.mazee[row - 1, col].category == Category.floor &&  !usedcells0.Contains(new int[] { row - 1, col }))
+                neighbords.Add(new int[] { row - 1, col });
+            if (col >= 1 && Global.maze.mazee[row, col - 1].category == Category.floor  && !usedcells0.Contains(new int[] { row, col - 1 }))
+                neighbords.Add(new int[] { row, col - 1 });
+            if (row <= size - 2 && Global.maze.mazee[row + 1, col].category == Category.floor  && !usedcells0.Contains(new int[] { row + 1, col }))
+                neighbords.Add(new int[] { row + 1, col });
+            if (col <= size - 2 && Global.maze.mazee[row, col + 1].category == Category.floor   && !usedcells0.Contains(new int[] { row, col + 1 }))
+                neighbords.Add(new int[] { row, col + 1 });
+        }
+
+        private List<int[]> Path(List<int[]> neighbords,List<int[]> usedcells0, int distance)
+        {
+            int x=0;
+            int y=0;
+            List<int[]> boundary = new List<int[]>();
+
+            if(distance == 0)
+            {
+                x = usedcells0[usedcells0.Count - 1][0];
+                y = usedcells0[usedcells0.Count - 1][1];
+                boundary.Add(new int[]{x, y});
+            }
+
+            if(neighbords.Count > 0)
+            {
+                for (int i = 0; i < neighbords.Count; i++)
+                {
+                    Neighborhod(neighbords, usedcells0, neighbords[i][0], neighbords[i][1]);
+                    if (distance > 0)
+                    {
+                        var result = Path(neighbords, usedcells0, distance - 1); 
+                        boundary.AddRange(result); 
+                    }
+                }
+            }
+            return boundary; 
+        }
         
 }
 
