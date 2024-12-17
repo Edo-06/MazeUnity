@@ -1,9 +1,10 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using Unity.VisualScripting;
+using UnityEngine.UI;
+using TMPro;
 using System;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -14,13 +15,19 @@ public class GameManager : MonoBehaviour
     public Transform grid;
     public GameObject Player1, Player2, Player3, Player4, Player5, Player6, Player7, Player8, Player9, Player10;
     public int size = 5;
+    public float turnDuration = 10f;
+    public TMP_Text timerText;
+    public GameObject menuPanel;
     //private bool isInit = false;
     
     public void EndTurn()
     {
+        turnDuration = 10f;
+        menuPanel.SetActive(false);
+        Global.isPaused = false;
         if (Global.players.Count == 0)
         {
-            Debug.LogError("No hay jugadores en la lista. No se puede terminar el turno.");
+            Debug.LogError("No hay jugadores en la lista");
             return;
         }
 
@@ -39,6 +46,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        menuPanel.SetActive(false);
         InitPlayers();
         Container1 container0 = container.GetComponent<Container1>();
         //container1 = container0;
@@ -56,27 +64,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (Global.players.Count > 0)
-        {            MovPlayer1 current = Global.players[currentPlayer][0].GetComponent<MovPlayer1>();
-            if (current != null){ 
-            //Debug.Log(current.transform.position.z);
-            List<int[]> boundary = BoundaryCells(current.transform.position.x, current.transform.position.z, 2);
-        
-        if (boundary == null || boundary.Count == 0)
+        if(turnDuration > 0 && !menuPanel.activeSelf && !Global.isPaused)
         {
-            Debug.LogWarning("BoundaryCells returned null or an empty list");
-            return; 
+            turnDuration -= Time.deltaTime;
+            timerText.text = Mathf.Ceil(turnDuration).ToString();
         }
-
-        for (int i = 0; i < boundary.Count; i++) // Cambié a boundary.Count (sin -1)
+        else
         {
-                if (Math.Abs(current.transform.position.x - boundary[i][0]) < 0.5 && Math.Abs(current.transform.position.z - boundary[i][1]) < 0.5) // poner en un rango 
-            {
-                current.transform.position = new Vector3 (boundary[i][0], 0.4f, boundary[i][1]) ;
-                EndTurn();
-            }
-        }   }
-        }*/
+            Global.isPaused = true;
+            menuPanel.SetActive(true);
+        }
     }
 
     void StartTurn()
@@ -87,6 +84,7 @@ public class GameManager : MonoBehaviour
         player0.TakeTurn();
         player0.lastPosition = player0.transform.position;
         player0.total = 0;
+        //StartCoroutine(TurnTimer());
     }
     void ChangeCamera()
     {
@@ -139,79 +137,18 @@ public class GameManager : MonoBehaviour
        // Debug.Log(player1.character.skill);
     }
 
-    public List<int[]> BoundaryCells(float rowFloat, float colFloat, float distance)
-        {
-            int row = (int)rowFloat;
-            int col = (int)colFloat;
-
-
-            List<int[]> neighbords = new List<int[]>();
-            List<int[]> usedcells0 = new List<int[]>();
-            Neighborhod(neighbords, usedcells0, row, col);
-            List<int[]> boundary = Path(neighbords, usedcells0, distance);
-            return boundary;
-        }
-
-    private void Neighborhod(List<int[]> neighbords, List<int[]> usedcells0, int row, int col)
-    {   //Container1 container0 = container.GetComponent<Container1>();
-        usedcells0.Add(new int[] {row, col});
-        if (row >= 1 && Global.maze.mazee[row - 1, col].category == Category.floor &&  !usedcells0.Contains(new int[] { row - 1, col }))
-            neighbords.Add(new int[] { row - 1, col });
-        if (col >= 1 && Global.maze.mazee[row, col - 1].category == Category.floor  && !usedcells0.Contains(new int[] { row, col - 1 }))
-            neighbords.Add(new int[] { row, col - 1 });
-        if (row <= size - 2 && Global.maze.mazee[row + 1, col].category == Category.floor  && !usedcells0.Contains(new int[] { row + 1, col }))
-            neighbords.Add(new int[] { row + 1, col });
-        if (col <= size - 2 && Global.maze.mazee[row, col + 1].category == Category.floor   && !usedcells0.Contains(new int[] { row, col + 1 }))
-            neighbords.Add(new int[] { row, col + 1 });
-    }
-
-    private List<int[]> Path(List<int[]> neighbords,List<int[]> usedcells0, float distance)
+    private IEnumerator TurnTimer()
     {
-        int x=0;
-        int y=0;
-        List<int[]> boundary = new List<int[]>();
-
-        if(distance <= 0)
+        float timeRemaining = turnDuration;
+        while (timeRemaining > 0)
         {
-            x = usedcells0[usedcells0.Count - 1][0];
-            y = usedcells0[usedcells0.Count - 1][1];
-            boundary.Add(new int[]{x, y});
+            Debug.Log($"Tiempo restante: {timeRemaining:F1}");
+            timerText.text = $"Tiempo restante: {timeRemaining:F1}";
+            yield return new WaitForSeconds(1f);
+            timeRemaining -= 1f;
         }
-
-        while(distance > 0)
-        {
-            if(distance  > 1)
-            {
-                for (int i = 0; i < neighbords.Count; i++)
-                {
-                    Neighborhod(neighbords, usedcells0, neighbords[neighbords.Count-i-1][0], neighbords[neighbords.Count-i-1][1]);
-                    neighbords.RemoveAt(i);
-                    if (distance > 0)
-                    {
-                        distance--;
-                        var result = Path(neighbords, usedcells0, distance); 
-                        boundary.AddRange(result); 
-                    }
-                }
-            }    
-            else
-            {
-                for(int i = 0; i < neighbords.Count; i++)
-                {
-                    boundary.Add(neighbords[i]);
-                }
-                distance--;
-            }
-        }   
-        
-        
-        return boundary; 
+        //yield return new WaitForSeconds(turnDuration);
+        timerText.text = "Tiempo restante: 0";
+        menuPanel.SetActive(true);
     }
-
-void X ()
-{
-    Container1 container0 = container.GetComponent<Container1>();
-    Debug.Log(Global.maze.mazee[1,1].category);
-}
-
 }

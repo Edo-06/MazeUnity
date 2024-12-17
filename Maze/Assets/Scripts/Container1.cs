@@ -123,14 +123,14 @@ public class Container1 : MonoBehaviour
 
     }
 
-    void Limit(int size)
+    void Limit(int size)//no pincha
     {
         for (int i = -2; i < size+1; i++)
         {
-                GameObject wall = Instantiate(LimitObject, new Vector3(i, 0.5f, -2), Quaternion.identity);
-                GameObject wall1 = Instantiate(LimitObject, new Vector3(-2, 0.5f, i), Quaternion.identity);
-                GameObject wall2 = Instantiate(LimitObject, new Vector3(size+1, 0.5f, i), Quaternion.identity);
-                GameObject wall3 = Instantiate(LimitObject, new Vector3(i, 0.5f,size+1),Quaternion.identity);
+                Instantiate(LimitObject, new Vector3(i, 0.5f, -2), Quaternion.identity);
+                Instantiate(LimitObject, new Vector3(-2, 0.5f, i), Quaternion.identity);
+                Instantiate(LimitObject, new Vector3(size+1, 0.5f, i), Quaternion.identity);
+                Instantiate(LimitObject, new Vector3(i, 0.5f,size+1),Quaternion.identity);
         }
     }
 
@@ -189,27 +189,6 @@ public class Container1 : MonoBehaviour
             
         }
 
-        private void AddPlayer(GameObject[] player0)
-        {
-            int i = 0 ;
-            bool found = false;
-            if(playersC.Count == 0)
-            {
-                playersC.Add(player0);
-            } else 
-            {
-                while( !found && i < playersC.Count)
-                {
-                    if(player0 != playersC[i])
-                        i++;
-                    else
-                        found = true;
-                }
-                if(!found)
-                    playersC.Add(player0);
-            }
-        }
-
         public void Init(int s, GameObject player0, GameObject player1, GameObject player3, GameObject player4)
         {
             size = s;
@@ -221,60 +200,6 @@ public class Container1 : MonoBehaviour
             InitialPosition(player0,player1);
             InitialPosition(player3,player4);
         }
-        public List<int[]> BoundaryCells(float rowFloat, float colFloat, int distance)
-        {
-            int row = (int)rowFloat;
-            int col = (int)colFloat;
-
-
-            List<int[]> neighbords = new List<int[]>();
-            List<int[]> usedcells0 = new List<int[]>();
-            Neighborhod(neighbords, usedcells0, row, col);
-            List<int[]> boundary = Path(neighbords, usedcells0, distance);
-            return boundary;
-        }
-
-        private void Neighborhod(List<int[]> neighbords, List<int[]> usedcells0, int row, int col)
-        {
-            usedcells0.Add(new int[] {row, col});
-            if (row >= 1 && Global.maze.mazee[row - 1, col].category == Category.floor &&  !usedcells0.Contains(new int[] { row - 1, col }))
-                neighbords.Add(new int[] { row - 1, col });
-            if (col >= 1 && Global.maze.mazee[row, col - 1].category == Category.floor  && !usedcells0.Contains(new int[] { row, col - 1 }))
-                neighbords.Add(new int[] { row, col - 1 });
-            if (row <= size - 2 && Global.maze.mazee[row + 1, col].category == Category.floor  && !usedcells0.Contains(new int[] { row + 1, col }))
-                neighbords.Add(new int[] { row + 1, col });
-            if (col <= size - 2 && Global.maze.mazee[row, col + 1].category == Category.floor   && !usedcells0.Contains(new int[] { row, col + 1 }))
-                neighbords.Add(new int[] { row, col + 1 });
-        }
-
-        private List<int[]> Path(List<int[]> neighbords,List<int[]> usedcells0, int distance)
-        {
-            int x=0;
-            int y=0;
-            List<int[]> boundary = new List<int[]>();
-
-            if(distance == 0)
-            {
-                x = usedcells0[usedcells0.Count - 1][0];
-                y = usedcells0[usedcells0.Count - 1][1];
-                boundary.Add(new int[]{x, y});
-            }
-
-            if(neighbords.Count > 0)
-            {
-                for (int i = 0; i < neighbords.Count; i++)
-                {
-                    Neighborhod(neighbords, usedcells0, neighbords[i][0], neighbords[i][1]);
-                    if (distance > 0)
-                    {
-                        var result = Path(neighbords, usedcells0, distance - 1); 
-                        boundary.AddRange(result); 
-                    }
-                }
-            }
-            return boundary; 
-        }
-        
 }
 
 

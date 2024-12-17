@@ -60,3 +60,8 @@ MonoBehaviour:
   Player10: {fileID: 3195849843336760398, guid: e48ea6fe9519886489342e1f19972918,
     type: 3}
   size: 25
+  turnDuration: 10
+  timerText: {fileID: 7159263422187031441, guid: f4b589aa924be1f428a1cd727226f280,
+    type: 3}
+  menuPanel: {fileID: 3094116124690697201, guid: 71a57263081ebea489a26ba523b72875,
+    type: 3}

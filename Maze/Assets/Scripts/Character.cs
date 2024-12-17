@@ -5,11 +5,11 @@ public class Character
 {
     public float health, speed;
     public string skill;
-    public Character(float he, float sp, string sk)
+    public Character(float health, float speed, string skill)
     {
-        health = he;
-        speed = sp;
-        skill = sk;
+        this.health = health;
+        this.speed = speed;
+        this.skill = skill;
     }
 
     

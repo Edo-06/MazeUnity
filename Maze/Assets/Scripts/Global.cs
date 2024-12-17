@@ -6,4 +6,5 @@ public class Global
 {
     public static List<GameObject[]> players;
     public static Maze maze;
+    public static bool isPaused = false;
 }

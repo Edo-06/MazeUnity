@@ -1,6 +1,3 @@
-using UnityEngine;
-using UnityEngine.UIElements;
-
 public enum Category
 {
     wall,
@@ -12,17 +9,16 @@ public enum Category
 }
 public class Cell
 {
-    public GameObject WallObject;
     public Category category;
     public string type;
     public string modo;
 
-    public Cell(Category cat, string ty = " ", string mod = " ") //mod = pocision de las puertas
+    public Cell(Category cat, string type = " ", string modo = " ") //mod = pocision de las puertas
 
     {
-        modo = mod;
-        category = cat;
-        type = ty;
+        this.modo = modo;
+        this.category = cat;
+        this.type = type;
     }
 
     /*public void Print(int x, int z)
