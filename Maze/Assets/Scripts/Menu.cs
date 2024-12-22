@@ -17,11 +17,24 @@ public class Menu : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene("SampleScene");
+        Debug.Log("Play");
+        if (Global.players.Count == 0)
+        {
+            Debug.LogError("No hay jugadores en la lista");
+        }
+        else
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
     }
 
     public void Exit()
     {
         Application.Quit();
+    }
+
+    public void SelectPlayer()
+    {
+        SceneManager.LoadScene("Characters");
     }
 }

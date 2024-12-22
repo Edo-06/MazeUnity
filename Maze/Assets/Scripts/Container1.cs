@@ -1,9 +1,5 @@
 using UnityEngine;
-using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor;
-using System.ComponentModel;
 
 
 
@@ -189,16 +185,18 @@ public class Container1 : MonoBehaviour
             
         }
 
-        public void Init(int s, GameObject player0, GameObject player1, GameObject player3, GameObject player4)
+        public void Init(int size, List<GameObject[]> players)
         {
-            size = s;
+            this.size = size;
             Global.maze = new Maze(size);
             Global.maze.Generator(size);
             Limit(size);
             Final(size);
             Print(size);
-            InitialPosition(player0,player1);
-            InitialPosition(player3,player4);
+            for(int i = 0; i < players.Count; i++)
+            {
+                InitialPosition(players[i][0],players[i][1]);
+            }    
         }
 }
 

@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\MazeMap.cs" />
     <Compile Include="Assets\Scripts\Maze.cs" />
     <Compile Include="Assets\Scripts\Final.cs" />
+    <Compile Include="Assets\Scripts\CharacterMenu.cs" />
     <Compile Include="Assets\Scripts\Cell.cs" />
     <Compile Include="Assets\Scripts\Container1.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />

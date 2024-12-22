@@ -15,14 +15,27 @@ public class GameManager : MonoBehaviour
     public Transform grid;
     public GameObject Player1, Player2, Player3, Player4, Player5, Player6, Player7, Player8, Player9, Player10;
     public int size = 5;
-    public float turnDuration = 10f;
+    public float turnDuration = 20f;
     public TMP_Text timerText;
     public GameObject menuPanel;
     //private bool isInit = false;
     
+    
+
+    void StartTurn()
+    {
+        //ActivePlayer();
+        ChangeCamera();
+        MovPlayer1 player0 = Global.players[currentPlayer][0].GetComponent<MovPlayer1>();
+        player0.TakeTurn();
+        player0.lastPosition = player0.transform.position;
+        player0.total = 0;
+        UpdateHealthBars();
+        //StartCoroutine(TurnTimer());
+    }
     public void EndTurn()
     {
-        turnDuration = 10f;
+        turnDuration = 20f;
         menuPanel.SetActive(false);
         Global.isPaused = false;
         if (Global.players.Count == 0)
@@ -51,7 +64,7 @@ public class GameManager : MonoBehaviour
         Container1 container0 = container.GetComponent<Container1>();
         //container1 = container0;
         container0.playersC = new List<GameObject[]>();
-        container0.Init(size,Player2,Player1,Player3,Player4);
+        container0.Init(size,Global.players);
         Global.players = container0.playersC;
         MazeMap map0 = map.GetComponent<MazeMap>();
         map0.UpdateUI(grid);
@@ -74,17 +87,6 @@ public class GameManager : MonoBehaviour
             Global.isPaused = true;
             menuPanel.SetActive(true);
         }
-    }
-
-    void StartTurn()
-    {
-        //ActivePlayer();
-        ChangeCamera();
-        MovPlayer1 player0 = Global.players[currentPlayer][0].GetComponent<MovPlayer1>();
-        player0.TakeTurn();
-        player0.lastPosition = player0.transform.position;
-        player0.total = 0;
-        //StartCoroutine(TurnTimer());
     }
     void ChangeCamera()
     {
@@ -126,8 +128,6 @@ public class GameManager : MonoBehaviour
         InitPLayer(Player8, 100, 10, "s8");
         InitPLayer(Player9, 100, 10, "s9");
         InitPLayer(Player10, 100, 10, "s10");
-
-        
     }
 
     void InitPLayer(GameObject player, float health, float speed, string skill)
@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
        // Debug.Log(player1.character.skill);
     }
 
-    private IEnumerator TurnTimer()
+    /*private IEnumerator TurnTimer()
     {
         float timeRemaining = turnDuration;
         while (timeRemaining > 0)
@@ -150,5 +150,20 @@ public class GameManager : MonoBehaviour
         //yield return new WaitForSeconds(turnDuration);
         timerText.text = "Tiempo restante: 0";
         menuPanel.SetActive(true);
+    }*/
+    void UpdateHealthBars()
+    {
+        for (int i = 0; i < Global.players.Count; i++)
+        {
+            GameObject[] playerPair = Global.players[i];
+            foreach (GameObject player in playerPair)
+            {
+                Health health = player.GetComponent<Health>();
+                if (health != null)
+                {
+                    //health.healthSlider .SetActive(i == currentPlayer);
+                }
+            }
+        }
     }
 }

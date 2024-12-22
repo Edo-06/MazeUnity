@@ -11,6 +11,4 @@ public class Character
         this.speed = speed;
         this.skill = skill;
     }
-
-    
 }

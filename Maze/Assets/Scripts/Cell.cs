@@ -13,11 +13,11 @@ public class Cell
     public string type;
     public string modo;
 
-    public Cell(Category cat, string type = " ", string modo = " ") //mod = pocision de las puertas
+    public Cell(Category category, string type = " ", string modo = " ") //mod = pocision de las puertas
 
     {
         this.modo = modo;
-        this.category = cat;
+        this.category = category;
         this.type = type;
     }
 
