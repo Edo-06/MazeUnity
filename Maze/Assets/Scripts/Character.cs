@@ -30,7 +30,7 @@ public class Character
     public float abilityActiveDuration;
     public float currentCooldown;
     public float currentActiveTime;
-    private List<int[]> playerTrapTemp = new List<int[]>();
+    public List<int[]> playerTrapTemp = new List<int[]>();
     
     public Character(float health, float maxHealth, float speed, string skill, int initialX = 0, int initialZ = 0)
     {
@@ -107,12 +107,6 @@ public class Character
                     Debug.Log($"Ability {ability} has ended");
                     currentCooldown = 0;
                     // terminar
-                    switch(ability)
-                    {
-                        case Abilities.seeAllTraps:
-                            playerTrap = playerTrapTemp;
-                            break;
-                    }
                 }
             }
         }

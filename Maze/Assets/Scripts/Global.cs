@@ -10,6 +10,6 @@ public class Global
     public static bool isPaused = false, onEndTurn = false;
     public static GameObject trapP;
     public static TMP_Text trapT;
-    public static int currentPlayer;
+    public static int currentPlayer, index = 0;
     public static List<int[]> allTheTraps = new List<int[]>();
 }

@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
-using System;
-using Unity.Collections;
 
 
 public class GameManager : MonoBehaviour
@@ -19,7 +17,7 @@ public class GameManager : MonoBehaviour
     public int size = 5;
     public float turnDuration = 20f;
     public TMP_Text timerText, trapText;
-    public GameObject menuPanel, deathPanel, trapPanel;
+    public GameObject menuPanel, deathPanel, trapPanel, selectCharacterPanel;
     public Slider healthBar, abilityCooldownBar,abilityActiveDurationBar;
     private Container1 container0;
     public Button abilityButton;
@@ -33,13 +31,15 @@ public class GameManager : MonoBehaviour
         //ActivePlayer();
         ChangeCamera();
         Global.currentPlayer = currentPlayer;
-        player = Global.players[currentPlayer][0].GetComponent<MovPlayer1>();
+        player = Global.players[currentPlayer][Global.index].GetComponent<MovPlayer1>();
         player.TakeTurn();
         player.lastPosition = player.transform.position;
         Debug.Log(player.character.health);
         if(player.character.AbilityIsActive())
         {
-            player.character.currentActiveTime = 0;
+            player.character.currentActiveTime = 0f;
+            if(player.character.ability == Abilities.seeAllTraps)
+            player.character.playerTrap = player.character.playerTrapTemp;
         }
         ShowTraps();
         
@@ -62,21 +62,19 @@ public class GameManager : MonoBehaviour
             Debug.LogError("No hay jugadores en la lista");
             return;
         }
-
         Debug.Log($"Terminando turno Jugador actual: {currentPlayer}, Total de jugadores: {Global.players.Count}");
-        Global.players[currentPlayer][0].SetActive(false);
+        Global.players[currentPlayer][Global.index].SetActive(false);
         if(container0 != null) 
             container0.RevertTraps(player.character.playerTrap);
-
         currentPlayer = (currentPlayer + 1) % Global.players.Count;
         //MovPlayer1 player0 = Global.players[currentPlayer][0].GetComponent<MovPlayer1>();
         //player0.total = 0;
 
         Debug.Log($"Nuevo jugador activo: {currentPlayer}");
-
-        Global.players[currentPlayer][0].SetActive(true);
-        
+        Global.players[currentPlayer][Global.index].SetActive(true);
         StartTurn();
+        selectCharacterPanel.SetActive(true);
+        Global.isPaused = true;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -84,6 +82,7 @@ public class GameManager : MonoBehaviour
         Global.trapP = trapPanel;
         Global.trapT = trapText;
         trapPanel.SetActive(false);
+        selectCharacterPanel.SetActive(false);
         if(trapPanel != null) Debug.Log("trapPanel no se ha perdido");
         else Debug.Log("se ha perdio");
         menuPanel.SetActive(false);
@@ -100,7 +99,11 @@ public class GameManager : MonoBehaviour
         map0 = map.GetComponent<MazeMap>();
         map0.UpdateUI(grid);
         Debug.Log($"el count es {Global.players.Count}");
+        selectCharacterPanel.SetActive(true);
+        //while(selectCharacterPanel.activeSelf){}
         ActivePlayer();
+        selectCharacterPanel.SetActive(true);
+        Global.isPaused = true;
         StartTurn();
         //isInit = true;
     }
@@ -125,7 +128,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if(!deathPanel.activeSelf && !trapPanel.activeSelf)
+            if(!deathPanel.activeSelf && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf)
             {
                 Global.isPaused = true;
                 Global.onEndTurn = true;
@@ -149,7 +152,7 @@ public class GameManager : MonoBehaviour
             player0.DeactivateCamera();
             player01.DeactivateCamera();
         }
-        MovPlayer1 player1 = Global.players[currentPlayer][0].GetComponent<MovPlayer1>();
+        MovPlayer1 player1 = Global.players[currentPlayer][Global.index].GetComponent<MovPlayer1>();
         player1.ActivateCamera();
         //Camera.main.transform.position = Global.players[currentPlayer].transform.position + new Vector3(0,2,-6);
         //Camera.main.transform.LookAt(Global.players[currentPlayer].transform.position);
@@ -164,7 +167,7 @@ public class GameManager : MonoBehaviour
             }
         if (Global.players.Count > 0)
         {
-            Global.players[currentPlayer][0].SetActive(true); 
+            Global.players[currentPlayer][Global.index].SetActive(true); 
         }
     }
 
@@ -198,7 +201,7 @@ public class GameManager : MonoBehaviour
                 player1.character.SetAbility(Abilities.boom, 240f, 1f);
                 break;
             case "s4":
-                player1.character.SetAbility(Abilities.teleport, 15f, 1f);
+                player1.character.SetAbility(Abilities.bless, 5f, 1f);
                 break;
             case "s5":
                 player1.character.SetAbility(Abilities.heal, 20f, 1f);
@@ -213,7 +216,7 @@ public class GameManager : MonoBehaviour
                 player1.character.SetAbility(Abilities.poison, 10f, 2f);
                 break;
             case "s9":
-                player1.character.SetAbility(Abilities.bless, 5f, 1f);
+                player1.character.SetAbility(Abilities.teleport, 15f, 3f);
                 break;
             case "s10":
                 player1.character.SetAbility(Abilities.curse, 5f, 1f);
@@ -281,7 +284,6 @@ public class GameManager : MonoBehaviour
         if(player.character.ability == Abilities.seeAllTraps) ShowTraps();
         if(player.character.ability == Abilities.boom) Boom();
         if(player.character.ability == Abilities.enhancedMemory) ShowInitialPosition(); 
-        
     }
     void ShowTraps()
     {
@@ -330,5 +332,23 @@ public class GameManager : MonoBehaviour
         Desactivate(SearchCollidersAt(player.transform.position.x, player.transform.position.z - 1), "Gate");
         Desactivate(SearchCollidersAt(player.transform.position.x - 1, player.transform.position.z), "Gate");
         Desactivate(SearchCollidersAt(player.transform.position.x + 1, player.transform.position.z), "Gate");
+    }
+    public void Character1()
+    {
+        Global.players[currentPlayer][Global.index].SetActive(false);
+        Global.index = 0;
+        Global.players[currentPlayer][Global.index].SetActive(true);
+        selectCharacterPanel.SetActive(false);
+        Global.isPaused = false;
+        StartTurn();
+    }
+    public void Character2()
+    {
+        Global.players[currentPlayer][Global.index].SetActive(false);
+        Global.index = 1;
+        Global.players[currentPlayer][Global.index].SetActive(true);
+        selectCharacterPanel.SetActive(false);
+        Global.isPaused = false;
+        StartTurn();
     }
 }

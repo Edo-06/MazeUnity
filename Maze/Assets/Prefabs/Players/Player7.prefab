@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4155271324669001883}
   - component: {fileID: 8559906718965068108}
   - component: {fileID: 6175626455274751097}
-  - component: {fileID: 6342012591665446003}
   m_Layer: 0
   m_Name: Camera1
   m_TagString: Untagged
@@ -184,18 +183,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6342012591665446003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 562568079700346488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2703e591e2c3ded4d943e387322b8205, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3785023895576330564
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +252,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 75d99fe76d6bb244ab78d5301f7f416f, type: 2}
+  - {fileID: 2100000, guid: af34b02d1087f2341b6257740745f5ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

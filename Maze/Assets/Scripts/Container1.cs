@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Collections;
 
 
 
@@ -151,42 +152,28 @@ public class Container1 : MonoBehaviour
         }  
     }
 
-    void InitialPosition(GameObject player1, GameObject player2)
+    void InitialPosition(List<GameObject[]> players0)
         {
             //Rigidbody Player1Rigidbody;
             System.Random random = new System.Random();
-            int x;
-            int z;
+            int x,z,x1,z1;
             int i = 0;
             while(i < 1)
             {
                 x = random.Next(0,size-1);
                 z = random.Next(0,size-1);
-                if(Global.maze.mazee[x,z].category == Category.floor)
+                x1 = random.Next(0,size-1);
+                z1 = random.Next(0,size-1);
+                if(Global.maze.mazee[x,z].category == Category.floor && Global.maze.mazee[x1,z1].category == Category.floor)
                 {
-                    //Player1Rigidbody = Player1.GetComponent<Rigidbody>();
-                    //Player1Rigidbody.MovePosition(new Vector3(x, 0.5f, z));
-                    MovPlayer1 originalPlayerComponent1 = player1.GetComponent<MovPlayer1>();
-                    GameObject p1 = Instantiate(player1, new Vector3(x, 0, z), Quaternion.identity);
-                    p1.transform.localScale = new Vector3(0.05f, 0.05f, 0.08f);
-                    MovPlayer1 p01 = p1.GetComponent<MovPlayer1>();
-                    p01.character = originalPlayerComponent1.character;
-                    p01.character.initialX = x;
-                    p01.character.initialZ = z;
+                    foreach(var player in players0)
+                    {
+                        GameObject[] newPlayer = new GameObject[2];
+                        newPlayer[0] = A(player[0],x,z);
+                        newPlayer[1] = A(player[1],x1,z1);
+                        playersC.Add(newPlayer);
+                    }
                     //Debug.Log(player0.character.skill);
-                    MovPlayer1 originalPlayerComponent2 = player2.GetComponent<MovPlayer1>();
-                    GameObject p2 = Instantiate(player2, new Vector3(x, 0, z), Quaternion.identity);
-                    p2.transform.localScale = new Vector3(0.05f, 0.05f, 0.08f);
-                    MovPlayer1 p02 = p2.GetComponent<MovPlayer1>();
-                    p02.character = originalPlayerComponent2.character;
-                    p02.character.initialX = x;
-                    p02.character.initialZ = z;
-                    //MovPlayer1 player0 = player.GetComponent<MovPlayer1>();
-                    GameObject[] newPlayer = new GameObject[2];
-                    newPlayer[0] = p1;
-                    newPlayer[1] = p2;
-                    playersC.Add(newPlayer);
-
                     i++;
                     //Debug.Log(p1.transform.position);
                 }
@@ -202,10 +189,7 @@ public class Container1 : MonoBehaviour
             Limit(size);
             Final(size);
             Print(size);
-            for(int i = 0; i < players.Count; i++)
-            {
-                InitialPosition(players[i][0],players[i][1]);
-            }    
+                InitialPosition(players);    
         }
         public void ShowTamps(List<int[]> traps)
         {
@@ -248,6 +232,17 @@ public class Container1 : MonoBehaviour
                     rend.material.renderQueue = 3000;
                 }
             }
+        }
+        GameObject A(GameObject player1,int x, int z)
+        {
+            MovPlayer1 originalPlayerComponent1 = player1.GetComponent<MovPlayer1>();
+                    GameObject p1 = Instantiate(player1, new Vector3(x, 0, z), Quaternion.identity);
+                    p1.transform.localScale = new Vector3(0.05f, 0.05f, 0.08f);
+                    MovPlayer1 p01 = p1.GetComponent<MovPlayer1>();
+                    p01.character = originalPlayerComponent1.character;
+                    p01.character.initialX = x;
+                    p01.character.initialZ = z;
+                    return p1;
         }
 }
 
