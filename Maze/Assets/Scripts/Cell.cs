@@ -4,7 +4,7 @@ public enum Category
     floor,
     obstacle,
     key,
-    tramp,
+    trap,
     final,
 }
 public class Cell

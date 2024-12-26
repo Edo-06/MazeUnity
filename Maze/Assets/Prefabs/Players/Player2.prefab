@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: 2806922361967136091, guid: 59287082f8157bc4588f0d2bedf4dcfb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2806922361967136091, guid: 59287082f8157bc4588f0d2bedf4dcfb,
         type: 3}
@@ -80,9 +80,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3244484120642184688, guid: 59287082f8157bc4588f0d2bedf4dcfb,
         type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3244484120642184688, guid: 59287082f8157bc4588f0d2bedf4dcfb,
+        type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: da8eb12041c5f66429cad23d0af7fb08, type: 2}
+      objectReference: {fileID: 2100000, guid: ecf32e42dafc2b94bae0781946c320d1, type: 2}
     - target: {fileID: 4290539256251072417, guid: 59287082f8157bc4588f0d2bedf4dcfb,
         type: 3}
       propertyPath: m_Enabled
@@ -103,6 +108,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Direction
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7763326257387302490, guid: 59287082f8157bc4588f0d2bedf4dcfb,
+        type: 3}
+      propertyPath: field of view
+      value: 26.991467
+      objectReference: {fileID: 0}
+    - target: {fileID: 7763326257387302490, guid: 59287082f8157bc4588f0d2bedf4dcfb,
+        type: 3}
+      propertyPath: m_projectionMatrixMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7763326257387302490, guid: 59287082f8157bc4588f0d2bedf4dcfb,
+        type: 3}
+      propertyPath: m_AllowDynamicResolution
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

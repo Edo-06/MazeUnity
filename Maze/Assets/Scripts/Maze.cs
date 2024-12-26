@@ -66,7 +66,7 @@ public class Maze
                 }
             }
             AddObjects(Category.obstacle);
-            AddObjects(Category.tramp);
+            AddObjects(Category.trap);
             Keys();
         }
 

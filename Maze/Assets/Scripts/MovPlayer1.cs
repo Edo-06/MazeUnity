@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.UIElements;
 using System.ComponentModel;
+using UnityEngine.Rendering;
 
 public class MovPlayer1 : MonoBehaviour
 {
     public List<string> keys; 
+    
     public Rigidbody rb;
     public Camera playerCamera;
     public GameManager gameManager;
@@ -18,7 +20,8 @@ public class MovPlayer1 : MonoBehaviour
     public Character character;
     public GameObject container;
     public Vector3 lastPosition;
-    public float total;
+    public float total = 0f;
+    public Slider healthBar;
     //private bool isInit = false;
     public void TakeTurn()
     {
@@ -41,8 +44,7 @@ public class MovPlayer1 : MonoBehaviour
     void Start()
     {
         keys = new List<string>();
-        lastPosition = transform.position;
-        total = 0f;
+        //lastPosition = transform.position;
 
         //isInit=true;
         
@@ -63,7 +65,7 @@ public class MovPlayer1 : MonoBehaviour
         float rotationx = Input.GetAxis("Mouse Y");
         transform.Rotate(new Vector3(0, rotationy,0)*Time.deltaTime*rotationSpeed);
         //if(Global.players.Count > 1) Next();
-        float distance = Vector3.Distance(lastPosition,transform.position);
+        //float distance = Vector3.Distance(lastPosition,transform.position);
         /*total += distance;
         lastPosition = transform.position;
         Debug.Log(total);
@@ -91,6 +93,7 @@ public class MovPlayer1 : MonoBehaviour
         }
     }*/
 
+    
    
-    }
+}
 

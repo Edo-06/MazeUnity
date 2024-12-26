@@ -63,5 +63,13 @@ MonoBehaviour:
   turnDuration: 10
   timerText: {fileID: 7159263422187031441, guid: f4b589aa924be1f428a1cd727226f280,
     type: 3}
+  trapText: {fileID: 0}
   menuPanel: {fileID: 3094116124690697201, guid: 71a57263081ebea489a26ba523b72875,
     type: 3}
+  deathPanel: {fileID: 0}
+  trapPanel: {fileID: 7779614389056969209, guid: 49cbbb1d9a1141c449f074db80db612d,
+    type: 3}
+  healthBar: {fileID: 0}
+  abilityCooldownBar: {fileID: 0}
+  abilityActiveDurationBar: {fileID: 0}
+  abilityButton: {fileID: 0}

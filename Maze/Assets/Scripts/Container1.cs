@@ -14,10 +14,11 @@ public class Container1 : MonoBehaviour
 
     public GameObject LimitObject;
     public GameObject FinalObject;
-    public GameObject Tramp;
+    public GameObject Trap;
     public GameObject Key0;
     public GameObject Key1;
     public GameObject Key2;
+    
     public int size;
 
 
@@ -47,7 +48,8 @@ public class Container1 : MonoBehaviour
                 {
                     case Category.wall:
                         GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
-                        wall.transform.localScale = new Vector3(1, 1, 1); 
+                        wall.transform.localScale = new Vector3(1, 1, 1);
+                        //wall.transform.parent = WallObject.transform;
                         break;
                     case Category.floor:
                         break;
@@ -110,8 +112,10 @@ public class Container1 : MonoBehaviour
                                 break;
                         }
                         break;
-                    case Category.tramp:
-                        GameObject tramp = Instantiate(Tramp, new Vector3(i, 0.25f, j), Quaternion.identity);
+                    case Category.trap:
+                        GameObject trap = Instantiate(Trap, new Vector3(i, 0.25f, j), Quaternion.identity);
+                        //trap.transform.parent = Trap.transform;
+                        Global.allTheTraps.Add(new int[]{i,j});
                         break;
                 }
                 }
@@ -167,17 +171,22 @@ public class Container1 : MonoBehaviour
                     p1.transform.localScale = new Vector3(0.05f, 0.05f, 0.08f);
                     MovPlayer1 p01 = p1.GetComponent<MovPlayer1>();
                     p01.character = originalPlayerComponent1.character;
+                    p01.character.initialX = x;
+                    p01.character.initialZ = z;
                     //Debug.Log(player0.character.skill);
                     MovPlayer1 originalPlayerComponent2 = player2.GetComponent<MovPlayer1>();
                     GameObject p2 = Instantiate(player2, new Vector3(x, 0, z), Quaternion.identity);
                     p2.transform.localScale = new Vector3(0.05f, 0.05f, 0.08f);
                     MovPlayer1 p02 = p2.GetComponent<MovPlayer1>();
                     p02.character = originalPlayerComponent2.character;
+                    p02.character.initialX = x;
+                    p02.character.initialZ = z;
                     //MovPlayer1 player0 = player.GetComponent<MovPlayer1>();
                     GameObject[] newPlayer = new GameObject[2];
                     newPlayer[0] = p1;
                     newPlayer[1] = p2;
                     playersC.Add(newPlayer);
+
                     i++;
                     //Debug.Log(p1.transform.position);
                 }
@@ -197,6 +206,48 @@ public class Container1 : MonoBehaviour
             {
                 InitialPosition(players[i][0],players[i][1]);
             }    
+        }
+        public void ShowTamps(List<int[]> traps)
+        {
+            foreach(var trap in traps)
+            {
+                ChangeColorAtPosition(trap[0], trap[1], Color.red, 0.7f);
+                //Instantiate(trampsSeen, new Vector3(trap[0], 0.25f, trap[1]), Quaternion.identity);
+            }
+        }
+        public void RevertTraps(List<int[]> traps)
+        {
+            foreach(var trap in traps)
+            {
+                ChangeColorAtPosition(trap[0], trap[1], Color.white, 0.5f);
+            }
+        }
+        void ChangeColorAtPosition(int x, int z, Color color, float alpha)
+        {
+            Vector3 position = new Vector3(x, 0.25f , z);
+            Collider[] colliders = Physics.OverlapSphere(position, 0.1f);
+            foreach (Collider collider in colliders)
+            {
+                //collider.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                Renderer rend = collider.GetComponent<Renderer>();
+                if (rend != null)
+                {
+                    rend.material.shader = Shader.Find("Standard");
+                    Color newColor = color;
+                    newColor.a = alpha; 
+                    rend.material.color = newColor;
+                    
+                    // transparencia 
+                    rend.material.SetFloat("_Mode", 3);
+                    rend.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                    rend.material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                    rend.material.SetInt("_ZWrite", 0);
+                    rend.material.DisableKeyword("_ALPHATEST_ON");
+                    rend.material.EnableKeyword("_ALPHABLEND_ON");
+                    rend.material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                    rend.material.renderQueue = 3000;
+                }
+            }
         }
 }
 

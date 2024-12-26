@@ -6,6 +6,7 @@ public class MazeMap : MonoBehaviour
     public GameObject cell;
     public GameObject container;
     public Transform canvas;
+    private Transform grid;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,7 +23,7 @@ public class MazeMap : MonoBehaviour
         Container1 container0 = container.GetComponent<Container1>();
         Debug.Log("ejecutao");
         Transform canvas0 = Instantiate(canvas);
-        Transform grid = Instantiate(gridParent);
+        grid = Instantiate(gridParent);
         grid.transform.SetParent(canvas0.transform,false);
         //grid.transform.localScale = new Vector3(0.02f,0.02f);
         /*GameObject cell0 = Instantiate(cell,new Vector3(40, 40, 0), Quaternion.identity);
@@ -39,15 +40,32 @@ public class MazeMap : MonoBehaviour
                 cell0.transform.SetParent(grid, false);
                 Image cellImage = cell0.GetComponent<Image>();
 
-                if (Global.maze.mazee[i, j].category == Category.wall)
+                switch(Global.maze.mazee[i, j].category)
                 {
-                    cellImage.color = new Color(0f, 0f, 0f, 0.7f);
-                }
-                else
-                {
-                    cellImage.color = new Color(1f, 1f, 1f, 0.5f);
+                    case Category.wall: 
+                        cellImage.color = new Color(0f, 0f, 0f, 0.7f);
+                        break;
+                    case Category.final:
+                        cellImage.color = Color.yellow;
+                        break;
+                    default:
+                        cellImage.color = new Color(1f, 1f, 1f, 0.5f);
+                        break;
                 }
             }
+        }
+    }
+    public void Change(int index, Color color)
+    {
+        Debug.Log("aqui si");
+        Debug.Log(grid.transform.childCount);
+        if(grid.transform.childCount > index)
+        {
+            Debug.Log("en el if");
+            Transform child = grid.transform.GetChild(index);
+            Debug.Log("medio");
+            child.GetComponent<Image>().color = color;
+            Debug.Log("despues de");
         }
     }
 }

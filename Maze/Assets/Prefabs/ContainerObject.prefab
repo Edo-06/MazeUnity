@@ -56,7 +56,7 @@ MonoBehaviour:
     type: 3}
   FinalObject: {fileID: 4522210055552320521, guid: 86cd1e0af9661f24e88f3ac35e876126,
     type: 3}
-  Tramp: {fileID: 4447849992389103445, guid: 491720e3a8936ff4f820142d80a6d497, type: 3}
+  Trap: {fileID: 4447849992389103445, guid: 491720e3a8936ff4f820142d80a6d497, type: 3}
   Key0: {fileID: 3488002732556618048, guid: fb8d96df226408d4297e717a0e3ea8a2, type: 3}
   Key1: {fileID: 1251353114522481715, guid: 6cd058d24e3e2c248a89283b2af2776b, type: 3}
   Key2: {fileID: 4448123184397291684, guid: d18be603c12f9784d8fe93db62320530, type: 3}
