@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 public class Obstacle : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class Obstacle : MonoBehaviour
                 else
                 {
                     Global.isPaused = true;
+                    panel.GetComponent<Image>().color = new Color(0,0,0,0.5f);
                     panel.SetActive(true);
                     text.text = "Usa tu habilidad para cruzar";
                     Push((int)Math.Floor(transform.position.x), (int)Math.Floor(transform.position.z), other0);
@@ -45,6 +47,7 @@ public class Obstacle : MonoBehaviour
                 if (other0.keys.Contains(type))
                 {
                     Global.isPaused = true;
+                    panel.GetComponent<Image>().color = new Color(0,1,0,0.5f);
                     panel.SetActive(true);
                     text.text = "Tenias la llave de esta puerta, la has abierto"; //poner boton de abrir puerta
                     Debug.Log("Tenias la llave, has pasado");
@@ -55,6 +58,7 @@ public class Obstacle : MonoBehaviour
                 {
                     Debug.Log("Busca una llave de " + type);
                     Global.isPaused = true;
+                    panel.GetComponent<Image>().color = new Color(0,0,0,0.5f);
                     panel.SetActive(true);
                     text.text = $"No tienes ninguna llave de {type} que pueda abrir esta puerta";
                 }

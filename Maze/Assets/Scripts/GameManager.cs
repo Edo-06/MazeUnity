@@ -1,8 +1,9 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 
 public class GameManager : MonoBehaviour
@@ -14,10 +15,10 @@ public class GameManager : MonoBehaviour
     public GameObject map;
     public Transform grid;
     public GameObject Player1, Player2, Player3, Player4, Player5, Player6, Player7, Player8, Player9, Player10;
-    public int size = 5;
+    public int size = 30;
     public float turnDuration = 20f;
     public TMP_Text timerText, trapText;
-    public GameObject menuPanel, deathPanel, trapPanel, selectCharacterPanel;
+    public GameObject menuPanel, deathPanel, trapPanel, selectCharacterPanel, exitPanel;
     public Slider healthBar, abilityCooldownBar,abilityActiveDurationBar;
     private Container1 container0;
     public Button abilityButton;
@@ -89,6 +90,7 @@ public class GameManager : MonoBehaviour
         deathPanel.SetActive(false);
         abilityActiveDurationBar.gameObject.SetActive(false);
         abilityButton.gameObject.SetActive(false);
+        exitPanel.SetActive(false);
         //trapPanel.SetActive(false);
         InitPlayers();
         container0 = container.GetComponent<Container1>();
@@ -142,6 +144,11 @@ public class GameManager : MonoBehaviour
         
         UpdateHealthBars();
         UpdateCooldowns();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            exitPanel.SetActive(true);
+            Global.isPaused = true;
+        }
     }
     void ChangeCamera()
     {
@@ -253,11 +260,12 @@ public class GameManager : MonoBehaviour
     void UpdateCooldowns()
     {
         player.character.UpdateCooldowns(Time.deltaTime);
-
+        abilityCooldownBar.fillRect.GetComponent<Image>().color = player.gameObject.GetComponent<Renderer>().material.color;
         abilityCooldownBar.maxValue = player.character.abilityCooldown;
         abilityCooldownBar.minValue = 0f;
         abilityCooldownBar.value = player.character.currentCooldown;
 
+        abilityActiveDurationBar.fillRect.GetComponent<Image>().color = player.gameObject.GetComponent<Renderer>().material.color;
         abilityActiveDurationBar.maxValue = player.character.abilityActiveDuration;
         abilityActiveDurationBar.minValue = 0f;
         abilityActiveDurationBar.value = player.character.currentActiveTime;
@@ -318,12 +326,12 @@ public class GameManager : MonoBehaviour
     }
     void ShowInitialPosition()
     {
-        map0.Change((player.character.initialX-1)*25 + player.character.initialZ, Color.red);
+        map0.Change((player.character.initialX-1)*size + player.character.initialZ, Color.red);
         Debug.Log($"{player.character.initialX}, {player.character.initialZ}");
     }
     void DontShowPosition()
     {
-        map0.Change((player.character.initialX-1)*25 + player.character.initialZ, new Color(1f, 1f, 1f, 0.5f));
+        map0.Change((player.character.initialX-1)*size + player.character.initialZ, new Color(1f, 1f, 1f, 0.5f));
         Debug.Log($"{player.character.initialX}, {player.character.initialZ}");
     }
     void DesactivateGates()
@@ -350,5 +358,9 @@ public class GameManager : MonoBehaviour
         selectCharacterPanel.SetActive(false);
         Global.isPaused = false;
         StartTurn();
+    }
+    public void ExitToMenu()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }

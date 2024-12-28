@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 
 public class Tramp : MonoBehaviour
@@ -59,6 +60,7 @@ public class Tramp : MonoBehaviour
                 }
             }
             Global.trapP.SetActive(true);
+            Global.trapP.GetComponent<Image>().color = new Color(1,0,0,0.5f);
             Global.isPaused = true;
             Debug.Log("panel de la trampa activado");
             /*if(other0.transform.position.x < transform.position.x || other0.transform.position.z < transform.position.z)

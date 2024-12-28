@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Collections;
+using Unity.Mathematics;
+using System;
 
 
 
@@ -19,7 +21,7 @@ public class Container1 : MonoBehaviour
     public GameObject Key0;
     public GameObject Key1;
     public GameObject Key2;
-    
+    public int finalX, finalZ;
     public int size;
 
 
@@ -89,6 +91,8 @@ public class Container1 : MonoBehaviour
                         
                     case Category.final:
                         GameObject final = Instantiate(FinalObject, new Vector3(i, 0.5f, j), Quaternion.identity);
+                        finalX = i;
+                        finalZ = j;
                     break;
                     case Category.key:
                         switch(Global.maze.mazee[i,j].type)
@@ -135,35 +139,55 @@ public class Container1 : MonoBehaviour
         }
     }
 
-    void Final(int size)
-    {
-        int i = 0;
-        System.Random random = new System.Random();
-        int x, z;
-        while(i < 1)
-        {
-            x = random.Next(0,size);
-            z = random.Next(0,size);
-            if(Global.maze.mazee[x, z].category == Category.wall 
-            || Global.maze.mazee[x, z].category == Category.floor)
-            {
-                    Global.maze.mazee[x, z].category = Category.final;
-                i++;}
-        }  
-    }
+
 
     void InitialPosition(List<GameObject[]> players0)
         {
             //Rigidbody Player1Rigidbody;
             System.Random random = new System.Random();
-            int x,z,x1,z1;
+            int x,z,x1,z1, minX, maxX, minZ, maxZ;
             int i = 0;
+            int[] arr = {finalX*finalZ, finalX*(size - finalZ), (size-finalX)*finalZ, (size-finalX)*(size-finalZ)};
+            int index = IndexOfMaxArr(arr);
+            switch(index)
+            {
+                case 0:
+                    minX = 0;
+                    minZ = 0;
+                    maxX = finalX*2/3;
+                    maxZ = finalZ*2/3;
+                    break;
+                case 1:
+                    minX = 0;
+                    maxX = finalX*2/3;
+                    minZ = finalZ + (size - finalZ)/3;
+                    maxZ = size - 1;
+                    break;
+                case 2:
+                    minX = finalX + (size - finalX)/3;
+                    maxX = size - 1;
+                    minZ = 0;
+                    maxZ = finalZ*2/3;
+                    break;
+                case 3:
+                    minX = finalX + (size - finalX)/3;
+                    maxX = size - 1;
+                    minZ = finalZ*2/3;
+                    maxZ = size - 1;
+                    break;
+                default:
+                    minX = 0;
+                    maxX = size - 1;
+                    minZ = 0;
+                    maxZ = size - 1;
+                    break;
+            }
             while(i < 1)
             {
-                x = random.Next(0,size-1);
-                z = random.Next(0,size-1);
-                x1 = random.Next(0,size-1);
-                z1 = random.Next(0,size-1);
+                x = random.Next(minX,maxX);
+                z = random.Next(minZ,maxZ);
+                x1 = random.Next(minX,maxX);
+                z1 = random.Next(minZ,maxZ);
                 if(Global.maze.mazee[x,z].category == Category.floor && Global.maze.mazee[x1,z1].category == Category.floor)
                 {
                     foreach(var player in players0)
@@ -187,7 +211,6 @@ public class Container1 : MonoBehaviour
             Global.maze = new Maze(size);
             Global.maze.Generator(size);
             Limit(size);
-            Final(size);
             Print(size);
                 InitialPosition(players);    
         }
@@ -203,7 +226,7 @@ public class Container1 : MonoBehaviour
         {
             foreach(var trap in traps)
             {
-                ChangeColorAtPosition(trap[0], trap[1], Color.white, 0.5f);
+                ChangeColorAtPosition(trap[0], trap[1], Color.white, 0f);
             }
         }
         void ChangeColorAtPosition(int x, int z, Color color, float alpha)
@@ -243,6 +266,20 @@ public class Container1 : MonoBehaviour
                     p01.character.initialX = x;
                     p01.character.initialZ = z;
                     return p1;
+        }
+        int IndexOfMaxArr(int[] arr)
+        {
+            int max = arr[0];
+            int index = 0;
+            for(int i = 1; i < arr.Length; i++)
+            {
+                if(arr[i] > max)
+                {
+                    max = arr[i];
+                    index = i;
+                }
+            }
+            return index;
         }
 }
 

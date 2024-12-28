@@ -45,6 +45,6 @@ public class CharacterMenu : MonoBehaviour
     public void BackButton()
     {
         Global.players = selectedCharacters;
-        SceneManager.LoadScene("Menu");
+        
     }
 }
