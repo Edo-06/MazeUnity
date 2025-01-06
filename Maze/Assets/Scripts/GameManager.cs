@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public Transform grid;
     public GameObject Player1, Player2, Player3, Player4, Player5, Player6, Player7, Player8, Player9, Player10;
     public int size = 30;
-    public TMP_Text timerText, trapText, abilityText, healthText, abilityTime, finalT;
+    public TMP_Text timerText, trapText, abilityText, healthText, abilityTime, finalT, key;
     public GameObject menuPanel, deathPanel, trapPanel, selectCharacterPanel, exitPanel, final;
     public Slider healthBar, abilityCooldownBar,abilityActiveDurationBar;
     private Container1 container0;
@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private int[] playerInfo, playerInfo1;
     private bool contains = false;
     private int index;
+    private bool envenenado = false;
     //private bool isInit = false;
     
     
@@ -201,6 +202,7 @@ public class GameManager : MonoBehaviour
         {
             abilityTime.text = Mathf.Floor(player.character.currentCooldown).ToString();
         }
+        key.text = player.keys.Count.ToString();
     }
     void ChangeCamera()
     {
@@ -299,6 +301,11 @@ public class GameManager : MonoBehaviour
     }*/
     void UpdateHealthBars()
     {
+        if(envenenado = true && count < 1 && player.character.health >= 5)
+        {
+            player.character.health -= 5f*Time.deltaTime;
+            count = 5;
+        }
         if(count < 1 && player.character.health <= player.character.maxHealth - 0.5f)
         {
             player.character.health += 0.5f*Time.deltaTime;
@@ -346,6 +353,7 @@ public class GameManager : MonoBehaviour
             if(player.character.ability == Abilities.trapDetector) ShowTraps();
             if(player.character.ability == Abilities.boom) Boom();
             if(player.character.ability == Abilities.enhancedMemory) ShowInitialPosition();
+            if(player.character.ability == Abilities.poison) envenenado = true;
         }
     }
     void ShowTraps()
