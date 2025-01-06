@@ -10,8 +10,6 @@ using UnityEngine.Rendering;
 public class MovPlayer1 : MonoBehaviour
 {
     public List<string> keys; 
-    
-    public Rigidbody rb;
     public Camera playerCamera;
     public GameManager gameManager;
     public float speed = 5f;

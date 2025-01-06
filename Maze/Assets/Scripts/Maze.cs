@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using System.Data.Common;
 
 
 public class Maze
@@ -69,6 +70,7 @@ public class Maze
             AddObjects(Category.trap);
             Keys();
             Final();
+            //WallMod();
         }
 
         public void Print()
@@ -97,7 +99,7 @@ public class Maze
         {
             int row, col, count = 0, i = 0;
             if(category == Category.obstacle) count = random.Next(size/2, size/2 + size/4);
-            if(category == Category.trap) count = random.Next(size*3/5, size*5/3 + size/4);
+            if(category == Category.trap) count = random.Next(size/5, size/2);
             while(i < count)
             {
                 row = random.Next(1, size-2);
@@ -192,6 +194,122 @@ public class Maze
                     i++;
                 }
             }  
+        }
+        void WallMod()
+        {
+            for(int i = 0; i < size; i++)
+            {
+                for(int j = 0; j < size; j++)
+                {
+                    if(mazee[i, j].category == Category.wall)
+                    {   if(i == 0)
+                        {
+                            if(j == 0)
+                            {
+                                mazee[i, j].modo = "corner";
+                            }
+                            else if(j == size - 1)
+                            {
+                                mazee[i, j].modo = "corner";
+                            }
+                            else
+                            {
+                                if(mazee[i, j + 1].category != Category.floor && mazee[i, j - 1].category != Category.floor)
+                                {
+                                    mazee[i, j].modo = "vertical";
+                                }
+                                else if(mazee[i, j + 1].category != Category.floor || mazee[i, j - 1].category != Category.floor)
+                                {
+                                    mazee[i, j].modo = "corner";
+                                }
+                                else
+                                {
+                                    mazee[i, j].modo = "horizontal+";
+                                }
+                            }
+                        }
+                        else if(j == 0)
+                        {
+                            if(i == size - 1)
+                            {
+                                mazee[i, j].modo = "corner";
+                            }
+                            else
+                            {
+                                if(mazee[i - 1, j].category != Category.floor && mazee[i + 1, j].category != Category.floor)
+                                {
+                                    mazee[i,j].modo = "horizontal";
+                                }
+                                else if(mazee[i - 1, j].category != Category.floor || mazee[i + 1, j].category != Category.floor)
+                                {
+                                    mazee[i, j].modo = "corner";
+                                }
+                                else
+                                {
+                                    mazee[i, j].modo = "vertical+";
+                                }
+                            }
+                        }
+                        else if(i == size - 1)
+                        {
+                            if(j == size - 1)
+                            {
+                                mazee[i, j].modo = "corner";
+                            }
+                            else if(mazee[i, j + 1].category != Category.floor && mazee[i, j - 1].category != Category.floor)
+                            {
+                                mazee[i, j].modo = "vertical";
+                            }
+                            else if(mazee[i, j + 1].category != Category.floor || mazee[i, j - 1].category != Category.floor)
+                            {
+                                mazee[i, j].modo = "corner";
+                            }
+                            else
+                            {
+                                mazee[i, j].modo = "horizontal-";
+                            }
+                        }
+                        else if(j == size - 1)
+                        {
+                            if(mazee[i - 1, j].category != Category.floor && mazee[i + 1, j].category != Category.floor)
+                                {
+                                    mazee[i,j].modo = "horizontal";
+                                }
+                                else if(mazee[i - 1, j].category != Category.floor || mazee[i + 1, j].category != Category.floor)
+                                {
+                                    mazee[i, j].modo = "corner";
+                                }
+                                else
+                                {
+                                    mazee[i, j].modo = "vertical-";
+                                }
+                        }
+                        else 
+                        {   
+                            if(mazee[i, j + 1].category != Category.floor && mazee[i, j - 1].category != Category.floor)
+                            {
+                                mazee[i, j].modo = "vertical";
+                            }
+                            else if(mazee[i + 1, j].category != Category.floor && mazee[i - 1, j].category != Category.floor)
+                            {
+                                mazee[i, j].modo = "horizontal";
+                            }
+                            else if(mazee[i + 1, j].category == Category.floor && mazee[i - 1, j].category == Category.floor)
+                            {
+                                mazee[i, j].modo = "vertical";
+                            }
+                            else if(mazee[i, j + 1].category == Category.floor && mazee[i, j - 1].category == Category.floor)
+                            {
+                                mazee[i, j].modo = "horizontal";
+                            }
+                            else
+                            {
+                                mazee[i, j].modo = "corner";
+                            }
+                        }
+                    }
+                }
+            }
         }
 
 

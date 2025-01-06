@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public enum Abilities
 {
-    seeAllTraps,
+    trapDetector,
     boom,
     heal,
     fireball,
@@ -31,13 +31,15 @@ public class Character
     public float currentCooldown;
     public float currentActiveTime;
     public List<int[]> playerTrapTemp = new List<int[]>();
+    public float turnDuration;
     
-    public Character(float health, float maxHealth, float speed, string skill, int initialX = 0, int initialZ = 0)
+    public Character(float health, float maxHealth, float speed, string skill, float turnDuration, int initialX = 0, int initialZ = 0)
     {
         this.health = health;
         this.speed = speed;
         this.skill = skill;
         this.maxHealth = maxHealth;
+        this.turnDuration = turnDuration;
         this.initialX = initialX;
         this.initialZ = initialZ;
         currentCooldown = abilityCooldown;
@@ -70,7 +72,7 @@ public class Character
             // lo que hace la habilidad
             switch(ability)
             {
-                case Abilities.seeAllTraps:
+                case Abilities.trapDetector:
                     playerTrapTemp = playerTrap;
                     playerTrap = Global.allTheTraps;
                     break;

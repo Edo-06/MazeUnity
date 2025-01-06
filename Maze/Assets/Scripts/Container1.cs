@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Mathematics;
 using System;
+using UnityEngine.InputSystem.Switch;
 
 
 
@@ -44,15 +45,28 @@ public class Container1 : MonoBehaviour
     void Print(int size)
     {
         for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
             {
-                for (int j = 0; j < size; j++)
-                {
-                switch (Global.maze.mazee[i,j].category)
+                switch (Global.maze.mazee[i, j].category)
                 {
                     case Category.wall:
                         GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
-                        wall.transform.localScale = new Vector3(1, 1, 1);
-                        //wall.transform.parent = WallObject.transform;
+                        switch (Global.maze.mazee[i, j].modo)
+                        {
+                            case "horizontal":
+                                wall.transform.localScale = new Vector3(1, 1, 0.2f);
+                                break;
+                            case "vertical":
+                                wall.transform.localScale = new Vector3(0.2f, 1, 1);
+                                break;
+                            case "corner":
+                                wall.transform.localScale = new Vector3(1, 1, 1);
+                                break;
+                            default:
+                                wall.transform.localScale = new Vector3(1, 1, 1);
+                                break;
+                        }
                         break;
                     case Category.floor:
                         break;
@@ -119,13 +133,16 @@ public class Container1 : MonoBehaviour
                         break;
                     case Category.trap:
                         GameObject trap = Instantiate(Trap, new Vector3(i, 0.25f, j), Quaternion.identity);
+                        if(Global.maze.mazee[i, j].modo == "vertical")
+                        trap.transform.localScale = new Vector3(0.2f, 1, 1);
+                        else
+                        trap.transform.localScale = new Vector3(1, 1, 0.2f);
                         //trap.transform.parent = Trap.transform;
                         Global.allTheTraps.Add(new int[]{i,j});
                         break;
                 }
-                }
             }
-
+        }
     }
 
     void Limit(int size)//no pincha

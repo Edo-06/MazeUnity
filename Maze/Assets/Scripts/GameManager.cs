@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
+using System.Linq;
 
 
 
@@ -16,13 +18,16 @@ public class GameManager : MonoBehaviour
     public Transform grid;
     public GameObject Player1, Player2, Player3, Player4, Player5, Player6, Player7, Player8, Player9, Player10;
     public int size = 30;
-    public float turnDuration = 20f;
-    public TMP_Text timerText, trapText;
-    public GameObject menuPanel, deathPanel, trapPanel, selectCharacterPanel, exitPanel;
+    public TMP_Text timerText, trapText, abilityText, healthText, abilityTime, finalT;
+    public GameObject menuPanel, deathPanel, trapPanel, selectCharacterPanel, exitPanel, final;
     public Slider healthBar, abilityCooldownBar,abilityActiveDurationBar;
     private Container1 container0;
     public Button abilityButton;
     private MazeMap map0 ;
+    private float turnDuration;
+    private int[] playerInfo, playerInfo1;
+    private bool contains = false;
+    private int index;
     //private bool isInit = false;
     
     
@@ -36,20 +41,22 @@ public class GameManager : MonoBehaviour
         player.TakeTurn();
         player.lastPosition = player.transform.position;
         Debug.Log(player.character.health);
+        turnDuration = player.character.turnDuration;
         if(player.character.AbilityIsActive())
         {
             player.character.currentActiveTime = 0f;
-            if(player.character.ability == Abilities.seeAllTraps)
+            if(player.character.ability == Abilities.trapDetector)
             player.character.playerTrap = player.character.playerTrapTemp;
         }
         ShowTraps();
+        abilityText.text = player.character.ability.ToString();
         
         //StartCoroutine(TurnTimer());
     }
     public void EndTurn()
     {
         if(player.character.IsDeath()) player.character.health += 1f;
-        turnDuration = 20f;
+        turnDuration = player.character.turnDuration;
         menuPanel.SetActive(false);
         deathPanel.SetActive(false);
         abilityButton.gameObject.SetActive(false);
@@ -74,14 +81,45 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Nuevo jugador activo: {currentPlayer}");
         Global.players[currentPlayer][Global.index].SetActive(true);
         StartTurn();
-        selectCharacterPanel.SetActive(true);
-        Global.isPaused = true;
+        playerInfo = new int[] {Global.currentPlayer, Global.index};
+        playerInfo1 = new int[] {Global.currentPlayer, (Global.index + 1)%2};
+        if(Global.atTheGoal.Count > 0)
+        Debug.Log($"{Global.atTheGoal[0][0]}, {Global.atTheGoal[0][1]}");
+        Debug.Log($"{playerInfo[0]}, {playerInfo[1]}");
+        contains = false;
+        foreach(var arr in Global.atTheGoal)
+        {
+            if(arr.SequenceEqual(playerInfo))
+            {
+                contains = true;
+                index = (Global.index + 1)%2;
+            }
+            if(arr.SequenceEqual(playerInfo1))
+            {
+                contains = true;
+                index = Global.index;
+            }
+        }
+        if(contains)
+        {
+            Global.isPaused = true;
+            selectCharacterPanel.SetActive(true);
+            SelectCharacter(index);
+        }
+        else
+        {
+            selectCharacterPanel.SetActive(true);
+            Global.isPaused = true;
+        }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Global.trapP = trapPanel;
         Global.trapT = trapText;
+        Global.final = final;
+        Global.finalT = finalT;
+        final.SetActive(false);
         trapPanel.SetActive(false);
         selectCharacterPanel.SetActive(false);
         if(trapPanel != null) Debug.Log("trapPanel no se ha perdido");
@@ -113,7 +151,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Global.onEndTurn && !trapPanel.activeSelf && !deathPanel.activeSelf)
+        if(Global.onEndTurn && !trapPanel.activeSelf && !deathPanel.activeSelf && !exitPanel.activeSelf && !final.activeSelf)
         {
             Global.isPaused = true;
             menuPanel.SetActive(true);
@@ -126,11 +164,11 @@ public class GameManager : MonoBehaviour
         if(turnDuration > 0 && !Global.isPaused)
         {
             turnDuration -= Time.deltaTime;
-            timerText.text = Mathf.Ceil(turnDuration).ToString();
+            timerText.text = $"Tiempo restante: {Mathf.Ceil(turnDuration).ToString()}";
         }
         else
         {
-            if(!deathPanel.activeSelf && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf)
+            if(!deathPanel.activeSelf && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf && !final.activeSelf)
             {
                 Global.isPaused = true;
                 Global.onEndTurn = true;
@@ -148,6 +186,20 @@ public class GameManager : MonoBehaviour
         {
             exitPanel.SetActive(true);
             Global.isPaused = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            UseAbility();
+        }
+        healthText.text = Mathf.Floor(player.character.health).ToString();
+        if(abilityActiveDurationBar.gameObject.activeSelf)
+        {
+            abilityTime.text = player.character.currentActiveTime.ToString();
+        }
+        else
+        {
+            abilityTime.text = Mathf.Floor(player.character.currentCooldown).ToString();
         }
     }
     void ChangeCamera()
@@ -180,29 +232,29 @@ public class GameManager : MonoBehaviour
 
     void InitPlayers()
     {
-        InitPLayer(Player1, 100, 100, 10, "s1");
-        InitPLayer(Player2, 20, 20, 10, "s2");
-        InitPLayer(Player3, 100, 100, 10, "s3");
-        InitPLayer(Player4, 100, 100, 10, "s4");
-        InitPLayer(Player5, 100, 100, 10, "s5");
-        InitPLayer(Player6, 100, 100, 10, "s6");
-        InitPLayer(Player7, 100, 100, 10, "s7");
-        InitPLayer(Player8, 100, 100, 10, "s8");
-        InitPLayer(Player9, 100, 100, 10, "s9");
-        InitPLayer(Player10, 100, 100, 10, "s10");
+        InitPLayer(Player1, 100, 100, 10, 40f, "s1");
+        InitPLayer(Player2, 20, 20, 10, 35f, "s2");
+        InitPLayer(Player3, 100, 100, 10, 30f, "s3");
+        InitPLayer(Player4, 100, 100, 10, 45f, "s4");
+        InitPLayer(Player5, 100, 100, 10, 50f, "s5");
+        InitPLayer(Player6, 100, 100, 10, 25f, "s6");
+        InitPLayer(Player7, 100, 100, 10, 40f, "s7");
+        InitPLayer(Player8, 100, 100, 10, 35f, "s8");
+        InitPLayer(Player9, 100, 100, 10, 30f, "s9");
+        InitPLayer(Player10, 100, 100, 10, 45f, "s10");
     }
 
-    void InitPLayer(GameObject player, float health, float maxHealth, float speed, string skill)
+    void InitPLayer(GameObject player, float health, float maxHealth, float speed, float turnD, string skill)
     {
         MovPlayer1 player1 = player.GetComponent<MovPlayer1>();
-        player1.character = new Character(health, maxHealth, speed, skill);
+        player1.character = new Character(health, maxHealth, speed, skill, turnD);
         switch (skill)
         {
             case "s1":
                 player1.character.SetAbility(Abilities.fireball, 5f, 2f);
                 break;
             case "s2":
-                player1.character.SetAbility(Abilities.seeAllTraps, 15f, 20f);//Shield
+                player1.character.SetAbility(Abilities.trapDetector, 15f, 20f);//Shield
                 break;
             case "s3":
                 player1.character.SetAbility(Abilities.boom, 240f, 1f);
@@ -284,14 +336,17 @@ public class GameManager : MonoBehaviour
     }
     public void UseAbility()
     {
-        abilityCooldownBar.gameObject.SetActive(false);
-        abilityActiveDurationBar.gameObject.SetActive(true);
-        player.character.UseAbility();
-        player.character.currentCooldown = 0f;
-        abilityButton.gameObject.SetActive(false);
-        if(player.character.ability == Abilities.seeAllTraps) ShowTraps();
-        if(player.character.ability == Abilities.boom) Boom();
-        if(player.character.ability == Abilities.enhancedMemory) ShowInitialPosition(); 
+        if(abilityCooldownBar.gameObject.activeSelf)
+        {
+            abilityCooldownBar.gameObject.SetActive(false);
+            abilityActiveDurationBar.gameObject.SetActive(true);
+            player.character.UseAbility();
+            player.character.currentCooldown = 0f;
+            abilityButton.gameObject.SetActive(false);
+            if(player.character.ability == Abilities.trapDetector) ShowTraps();
+            if(player.character.ability == Abilities.boom) Boom();
+            if(player.character.ability == Abilities.enhancedMemory) ShowInitialPosition();
+        }
     }
     void ShowTraps()
     {
@@ -343,24 +398,30 @@ public class GameManager : MonoBehaviour
     }
     public void Character1()
     {
-        Global.players[currentPlayer][Global.index].SetActive(false);
-        Global.index = 0;
-        Global.players[currentPlayer][Global.index].SetActive(true);
-        selectCharacterPanel.SetActive(false);
-        Global.isPaused = false;
-        StartTurn();
+        SelectCharacter(0);
     }
     public void Character2()
     {
-        Global.players[currentPlayer][Global.index].SetActive(false);
-        Global.index = 1;
-        Global.players[currentPlayer][Global.index].SetActive(true);
-        selectCharacterPanel.SetActive(false);
-        Global.isPaused = false;
-        StartTurn();
+        SelectCharacter(1);
     }
     public void ExitToMenu()
     {
         SceneManager.LoadScene("Menu");
     }
+    public void Continue()
+    {
+        Global.isPaused = false;
+        exitPanel. SetActive(false);
+    }
+    void SelectCharacter(int index)
+    {
+        Global.players[currentPlayer][Global.index].SetActive(false);
+        Global.index = index;
+        Global.players[currentPlayer][Global.index].SetActive(true);
+        selectCharacterPanel.SetActive(false);
+        Global.isPaused = false;
+        StartTurn();
+    }
+
+
 }
