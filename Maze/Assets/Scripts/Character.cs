@@ -7,7 +7,7 @@ public enum Abilities
     trapDetector,
     boom,
     heal,
-    fireball,
+    atack,
     teleport,
     frezee,
     invisibility,
@@ -115,4 +115,22 @@ public class Character
         }
         
     }
+    public void TakeDamage(float amount)
+    {
+        health -= amount;
+        if (health < 0)
+        {
+            health = 0;
+        }
+    }
+    public void Heal(float amount)
+    {
+        health += amount;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+    }
+
+
 }

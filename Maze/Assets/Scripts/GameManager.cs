@@ -6,19 +6,17 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Linq;
 
-
-
 public class GameManager : MonoBehaviour
 {
     private MovPlayer1 player;
-    private float count = 5;
+    private float count = 5, poisonedTime = 10;
     private int currentPlayer = 0;
     public GameObject container;
     public GameObject map;
     public Transform grid;
     public GameObject Player1, Player2, Player3, Player4, Player5, Player6, Player7, Player8, Player9, Player10;
     public int size = 30;
-    public TMP_Text timerText, trapText, abilityText, healthText, abilityTime, finalT, key, atackText;
+    public TMP_Text timerText, trapText, abilityText, healthText, abilityTime, finalT, key;
     public GameObject menuPanel, deathPanel, trapPanel, selectCharacterPanel, exitPanel, final, atackP;
     public Slider healthBar, abilityCooldownBar,abilityActiveDurationBar;
     private Container1 container0;
@@ -171,7 +169,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if(!deathPanel.activeSelf && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf && !final.activeSelf)
+            if(!deathPanel.activeSelf && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf && !final.activeSelf && !atackP)
             {
                 Global.isPaused = true;
                 Global.onEndTurn = true;
@@ -180,6 +178,17 @@ public class GameManager : MonoBehaviour
         }
         if(count > 0 && !Global.isPaused)
             count -= Time.deltaTime;
+        if(player.character.poisoned && !Global.isPaused)
+        {
+            Debug.Log($"envenenao {poisonedTime} {player.character.poisoned}" );
+            if(poisonedTime < 0)
+            {
+                poisonedTime = 10;
+                player.character.poisoned = false;
+            }
+        }
+            
+        
         if(trapPanel.activeSelf)
             ShowTraps();
         
@@ -205,6 +214,42 @@ public class GameManager : MonoBehaviour
             abilityTime.text = Mathf.Floor(player.character.currentCooldown).ToString();
         }
         key.text =$"   {Global.countKey0}    {Global.countKey1}    {Global.countKey2}";
+        if(Global.atack == true)
+        {
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Global.isPaused = false;
+                atackP.SetActive(false);
+                switch (player.character.ability)
+                {
+                    case Abilities.poison:
+                        Global.players[Global.currentPlayerPoisoned][0].GetComponent<MovPlayer1>().character.poisoned = true;
+                        break;
+                    case Abilities.atack:
+                        Global.players[Global.currentPlayerAtacked][0].GetComponent<MovPlayer1>().character.TakeDamage(15);
+                        break;
+                    default:
+                    break;
+                }
+                
+            }
+            if(Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Global.isPaused = false;
+                atackP.SetActive(false);
+                switch (player.character.ability)
+                {
+                    case Abilities.poison:
+                        Global.players[Global.currentPlayerPoisoned][1].GetComponent<MovPlayer1>().character.poisoned = true;
+                        break;
+                    case Abilities.atack:
+                        Global.players[Global.currentPlayerAtacked][1].GetComponent<MovPlayer1>().character.TakeDamage(15);
+                        break;
+                    default:
+                    break;
+                }
+            }
+        }
     }
     void ChangeCamera()
     {
@@ -255,7 +300,7 @@ public class GameManager : MonoBehaviour
         switch (skill)
         {
             case "s1":
-                player1.character.SetAbility(Abilities.fireball, 5f, 2f);
+                player1.character.SetAbility(Abilities.atack, 5f, 2f);
                 break;
             case "s2":
                 player1.character.SetAbility(Abilities.trapDetector, 15f, 20f);//Shield
@@ -303,14 +348,14 @@ public class GameManager : MonoBehaviour
     }*/
     void UpdateHealthBars()
     {
-        if(player.character.poisoned = true && count < 1 && player.character.health >= 5)
+        if(player.character.poisoned && count < 3)
         {
-            player.character.health -= 5f*Time.deltaTime;
-            count = 5;
+            player.character.TakeDamage(5);
+            poisonedTime -= Time.deltaTime;
         }
-        if(count < 1 && player.character.health <= player.character.maxHealth - 0.5f)
+        if(count < 1 )
         {
-            player.character.health += 0.5f*Time.deltaTime;
+            player.character.Heal(0.5f);
             count = 5;
         }
         healthBar.maxValue = player.character.maxHealth;
@@ -352,10 +397,21 @@ public class GameManager : MonoBehaviour
             player.character.UseAbility();
             player.character.currentCooldown = 0f;
             abilityButton.gameObject.SetActive(false);
-            if(player.character.ability == Abilities.trapDetector) ShowTraps();
-            if(player.character.ability == Abilities.boom) Boom();
-            if(player.character.ability == Abilities.enhancedMemory) ShowInitialPosition();
-            if(player.character.ability == Abilities.poison) Atack();
+            switch(player.character.ability)
+            {
+                case Abilities.trapDetector:
+                    ShowTraps();
+                    break;
+                case Abilities.boom:
+                    Boom();
+                    break;
+                case Abilities.enhancedMemory:
+                    ShowInitialPosition();
+                    break;
+                default:
+                    Atack();
+                    break;
+            }
         }
     }
     void ShowTraps()
@@ -416,6 +472,8 @@ public class GameManager : MonoBehaviour
     }
     public void ExitToMenu()
     {
+        Global.players = null;
+        Global.isPaused = false;
         SceneManager.LoadScene("Menu");
     }
     public void Continue()
@@ -436,11 +494,33 @@ public class GameManager : MonoBehaviour
     {
         atackP.SetActive(true);
         Global.isPaused = true;
-        for(int i = 0; i < Global.players.Count; i++)
+        int j = 0;
+        for(int i = 0; i < Global.players.Count - 1; i++)
         {
-                buttons[i].gameObject.SetActive(true);
-                buttons[i].GetComponent<Image>().color = Global.players[i][Global.index].GetComponent<Renderer>().material.color;
+            buttons[i].gameObject.SetActive(true);
+            if(i == currentPlayer)
+                j ++;
+            buttons[i].GetComponent<Image>().color = Global.players[j][0].GetComponent<Renderer>().material.color;
+            switch (j)
+            {
+                case 0:
+                    buttons[i].onClick.AddListener(AtackPlayer0);
+                break;
+                case 1:
+                    buttons[i].onClick.AddListener(AtackPlayer1);
+                break;
+                case 2:
+                    buttons[i].onClick.AddListener(AtackPlayer2);
+                break;
+                case 3:
+                    buttons[i].onClick.AddListener(AtackPlayer3);
+                break;
+                case 4:
+                    buttons[i].onClick.AddListener(AtackPlayer4);
+                break;
+            }
             
+            j++;
         }
     }
     void DesactiveButtons()
@@ -450,27 +530,41 @@ public class GameManager : MonoBehaviour
             buttons[i].gameObject.SetActive(false);
         }
     }
-    public void AtackPlayer()
+    void AtackPlayer0()
     {
-        //Debug.Log("Atacando");
-        DesactiveButtons();
-        //atackText.text = "Presione 1 para atacar al personaje pasivo y 2 para atacar al personaje activo";
-        /*while(atackP.activeSelf)
-        {
-            if(Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                Global.players[0][Global.index].GetComponent<MovPlayer1>().character.health -= 10f;
-                atackP.SetActive(false);
-                Global.isPaused = false;
-            }
-            if(Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                Global.players[1][Global.index].GetComponent<MovPlayer1>().character.health -= 10f;
-                atackP.SetActive(false);
-                Global.isPaused = false;
-            }
-        }*/
-        Global.isPaused = false;
-        atackP.SetActive(false);
+        AtackPlayer(0);
     }
+    void AtackPlayer1()
+    {
+        AtackPlayer(1);
+    }
+    void AtackPlayer2()
+    {
+        AtackPlayer(2);
+    }
+    void AtackPlayer3()
+    {
+        AtackPlayer(3);
+    }
+    void AtackPlayer4()
+    {
+        AtackPlayer(4);
+    }
+    void AtackPlayer(int playerIndex)
+    {
+        DesactiveButtons();
+        Global.atack = true;
+        switch (player.character.ability)
+        {
+            case Abilities.poison:
+                Global.currentPlayerPoisoned = playerIndex;
+                break;
+            case Abilities.atack:
+                Global.currentPlayerAtacked = playerIndex;
+                break;
+            default:
+            break;
+        }
+    }
+    
 }
