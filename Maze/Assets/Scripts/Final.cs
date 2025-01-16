@@ -42,7 +42,6 @@ public class Final : MonoBehaviour
     }
     public void Click()
     {
-        Global.isPaused = false;
         Global.final.SetActive(false);
     }
 }

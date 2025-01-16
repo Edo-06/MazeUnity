@@ -52,21 +52,7 @@ public class Container1 : MonoBehaviour
                 {
                     case Category.wall:
                         GameObject wall = Instantiate(WallObject, new Vector3(i, 0.5f, j), Quaternion.identity);
-                        switch (Global.maze.mazee[i, j].modo)
-                        {
-                            case "horizontal":
-                                wall.transform.localScale = new Vector3(1, 1, 0.2f);
-                                break;
-                            case "vertical":
-                                wall.transform.localScale = new Vector3(0.2f, 1, 1);
-                                break;
-                            case "corner":
-                                wall.transform.localScale = new Vector3(1, 1, 1);
-                                break;
-                            default:
-                                wall.transform.localScale = new Vector3(1, 1, 1);
-                                break;
-                        }
+                        wall.transform.localScale = new Vector3(1,1,1);
                         break;
                     case Category.floor:
                         break;

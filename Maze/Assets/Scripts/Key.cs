@@ -26,7 +26,20 @@ public class Key : MonoBehaviour
             AddObstacleType(type,other0);
             for(int i = 0; i < other0.keys.Count; i++)
             {Debug.Log(other0.keys[i]);}
-        }
+            switch(type)
+            {
+                case "type0":
+                    Global.countKey0 ++;
+                    
+                    break;
+                case "type1":
+                    Global.countKey1 ++;
+                    break;
+                case "type2":
+                    Global.countKey2 ++;
+                    break;
+            }        
+            }
     }
 
     private void AddObstacleType(string type, MovPlayer1 other0)

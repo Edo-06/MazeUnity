@@ -32,6 +32,7 @@ public class Character
     public float currentActiveTime;
     public List<int[]> playerTrapTemp = new List<int[]>();
     public float turnDuration;
+    public bool poisoned = false;
     
     public Character(float health, float maxHealth, float speed, string skill, float turnDuration, int initialX = 0, int initialZ = 0)
     {

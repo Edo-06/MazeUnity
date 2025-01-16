@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Rotate : MonoBehaviour
 {
-    public float speed = 8192;
+    public float speed = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
