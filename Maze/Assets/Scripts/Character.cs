@@ -15,6 +15,8 @@ public enum Abilities
     bless,
     curse,
     enhancedMemory,
+    killer,
+    inmobilize,
     //dash,
 
 }
@@ -32,7 +34,7 @@ public class Character
     public float currentActiveTime;
     public List<int[]> playerTrapTemp = new List<int[]>();
     public float turnDuration;
-    public bool poisoned = false;
+    public bool poisoned = false, cursed = false, murdered = false;
     
     public Character(float health, float maxHealth, float speed, string skill, float turnDuration, int initialX = 0, int initialZ = 0)
     {
@@ -47,7 +49,7 @@ public class Character
         currentActiveTime = 0;
     }
 
-    public bool IsDeath()
+    public bool IsDead()
     {
         return health < 2f;
     }

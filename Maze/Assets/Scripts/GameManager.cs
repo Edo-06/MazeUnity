@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public Transform grid;
     public GameObject Player1, Player2, Player3, Player4, Player5, Player6, Player7, Player8, Player9, Player10;
     public int size = 30;
-    public TMP_Text timerText, trapText, abilityText, healthText, abilityTime, finalT, key;
+    public TMP_Text timerText, trapText, abilityText, healthText, abilityTime, finalT, key, atackText;
     public GameObject menuPanel, deathPanel, trapPanel, selectCharacterPanel, exitPanel, final, atackP;
     public Slider healthBar, abilityCooldownBar,abilityActiveDurationBar;
     private Container1 container0;
@@ -54,7 +54,12 @@ public class GameManager : MonoBehaviour
     }
     public void EndTurn()
     {
-        if(player.character.IsDeath()) player.character.health += 1f;
+        if(player.inmobilized)
+        {
+            player.inmobilized = false;
+            player.character.murdered = true;
+        }
+        if(player.character.IsDead()) player.character.health += 1f;
         turnDuration = player.character.turnDuration;
         menuPanel.SetActive(false);
         deathPanel.SetActive(false);
@@ -152,12 +157,17 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(player.character.murdered)
+        {
+            player.character.health = 0;
+            player.character.murdered = false;
+        }
         if(Global.onEndTurn && !trapPanel.activeSelf && !deathPanel.activeSelf && !exitPanel.activeSelf && !final.activeSelf && !selectCharacterPanel.activeSelf && !atackP.activeSelf)
         {
             Global.isPaused = true;
             menuPanel.SetActive(true);
         }
-        if(player.character.IsDeath() && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf) 
+        if(player.character.IsDead() && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf) 
         {
             deathPanel.SetActive(true);
             Global.isPaused = true;
@@ -169,7 +179,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if(!deathPanel.activeSelf && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf && !final.activeSelf && !atackP)
+            if(!deathPanel.activeSelf && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf && !final.activeSelf && !atackP.activeSelf)
             {
                 Global.isPaused = true;
                 Global.onEndTurn = true;
@@ -207,7 +217,7 @@ public class GameManager : MonoBehaviour
         healthText.text = Mathf.Ceil(player.character.health).ToString();
         if(abilityActiveDurationBar.gameObject.activeSelf)
         {
-            abilityTime.text = player.character.currentActiveTime.ToString();
+            abilityTime.text = Math.Floor(player.character.currentActiveTime).ToString();
         }
         else
         {
@@ -228,10 +238,19 @@ public class GameManager : MonoBehaviour
                     case Abilities.atack:
                         Global.players[Global.currentPlayerAtacked][0].GetComponent<MovPlayer1>().character.TakeDamage(15);
                         break;
+                    case Abilities.curse:
+                        Global.players[Global.currentPlayerCurse][0].GetComponent<MovPlayer1>().character.cursed = true;
+                        break;
+                    case Abilities.killer:
+                        Global.players[Global.currentPlayerMurdered][0].GetComponent<MovPlayer1>().character.murdered = true;
+                        break;
+                    case Abilities.inmobilize:
+                        Global.players[Global.currentPlayerInmobilized][0].GetComponent<MovPlayer1>().inmobilized = true;
+                        break;
                     default:
                     break;
                 }
-                
+                atackText.text = "Para usar tu habilidad elija sobre que jugador quiere que se aplique el efecto";
             }
             if(Input.GetKeyDown(KeyCode.Alpha2))
             {
@@ -245,9 +264,19 @@ public class GameManager : MonoBehaviour
                     case Abilities.atack:
                         Global.players[Global.currentPlayerAtacked][1].GetComponent<MovPlayer1>().character.TakeDamage(15);
                         break;
+                    case Abilities.curse:
+                        Global.players[Global.currentPlayerCurse][1].GetComponent<MovPlayer1>().character.cursed = true;
+                        break;
+                    case Abilities.killer:
+                        Global.players[Global.currentPlayerMurdered][1].GetComponent<MovPlayer1>().character.murdered = true;
+                        break;
+                    case Abilities.inmobilize:
+                        Global.players[Global.currentPlayerInmobilized][1].GetComponent<MovPlayer1>().inmobilized = true;
+                        break;
                     default:
                     break;
                 }
+                atackText.text = "Para usar tu habilidad elija sobre que jugador quiere que se aplique el efecto";
             }
         }
     }
@@ -303,19 +332,19 @@ public class GameManager : MonoBehaviour
                 player1.character.SetAbility(Abilities.atack, 5f, 2f);
                 break;
             case "s2":
-                player1.character.SetAbility(Abilities.trapDetector, 15f, 20f);//Shield
+                player1.character.SetAbility(Abilities.trapDetector, 15f, 20f);
                 break;
             case "s3":
                 player1.character.SetAbility(Abilities.boom, 240f, 1f);
                 break;
             case "s4":
-                player1.character.SetAbility(Abilities.bless, 5f, 1f);
+                player1.character.SetAbility(Abilities.inmobilize, 5f, 1f);
                 break;
             case "s5":
                 player1.character.SetAbility(Abilities.heal, 20f, 1f);
                 break;
             case "s6":
-                player1.character.SetAbility(Abilities.invisibility, 15f, 2f);
+                player1.character.SetAbility(Abilities.killer, 15f, 2f);
                 break;
             case "s7":
                 player1.character.SetAbility(Abilities.enhancedMemory, 60f, 20f);
@@ -350,12 +379,12 @@ public class GameManager : MonoBehaviour
     {
         if(player.character.poisoned && count < 3)
         {
-            player.character.TakeDamage(5);
+            player.character.TakeDamage(5*Time.deltaTime);
             poisonedTime -= Time.deltaTime;
         }
-        if(count < 1 )
+        if(count < 1)
         {
-            player.character.Heal(0.5f);
+            player.character.Heal(0.5f*Time.deltaTime);
             count = 5;
         }
         healthBar.maxValue = player.character.maxHealth;
@@ -397,6 +426,12 @@ public class GameManager : MonoBehaviour
             player.character.UseAbility();
             player.character.currentCooldown = 0f;
             abilityButton.gameObject.SetActive(false);
+            if(player.character.cursed)
+            {
+                player.character.TakeDamage(5);
+                player.character.cursed = false;
+                return;
+            }
             switch(player.character.ability)
             {
                 case Abilities.trapDetector:
@@ -554,6 +589,7 @@ public class GameManager : MonoBehaviour
     {
         DesactiveButtons();
         Global.atack = true;
+        atackText.text = "Presione 1 para usar su habilidad sobre el personaje pasivo y 2 para usar su habilidad sobre el personaje activo";
         switch (player.character.ability)
         {
             case Abilities.poison:
@@ -561,6 +597,15 @@ public class GameManager : MonoBehaviour
                 break;
             case Abilities.atack:
                 Global.currentPlayerAtacked = playerIndex;
+                break;
+            case Abilities.curse:
+                Global.currentPlayerCurse = playerIndex;
+                break;
+            case Abilities.killer:
+                Global.currentPlayerMurdered = playerIndex;
+                break;
+            case Abilities.inmobilize:
+                Global.currentPlayerInmobilized = playerIndex;
                 break;
             default:
             break;

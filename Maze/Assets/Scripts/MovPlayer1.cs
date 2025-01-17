@@ -19,7 +19,7 @@ public class MovPlayer1 : MonoBehaviour
     public GameObject container;
     public Vector3 lastPosition;
     public float total = 0f;
-    public Slider healthBar;
+    public bool inmobilized = false;
     //private bool isInit = false;
     public void TakeTurn()
     {
@@ -54,7 +54,7 @@ public class MovPlayer1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Global.isPaused) return;
+        if(Global.isPaused || inmobilized) return;
         else{
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");

@@ -432,7 +432,7 @@ PrefabInstance:
         type: 3}
       propertyPath: atackText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1033117154}
     - target: {fileID: 3115026016874365655, guid: 0f8a147260ca6e743939b0c23cca26bc,
         type: 3}
       propertyPath: container
@@ -2941,7 +2941,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Para usar tu habilidad elige sobre que jugador quieres que se aplique el
+  m_text: Para usar tu habilidad elija sobre que jugador quiere que se aplique el
     efecto
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -2,9 +2,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 public class Final : MonoBehaviour
 {
     public Button btn1, btn2;
+    private bool finish = false;
     void Start()
     {
         btn1.gameObject.SetActive(false);
@@ -16,7 +18,14 @@ public class Final : MonoBehaviour
         {
             int[] playerInfo = new int[] {Global.currentPlayer, Global.index};
             int[] playerInfo1 = new int[] {Global.currentPlayer, (Global.index + 1)%2};
-            if(Global.atTheGoal.Contains(playerInfo1))
+            for(int i = 0; i < Global.atTheGoal.Count; i++)
+            {
+                if(Global.atTheGoal[i].SequenceEqual(playerInfo1))
+                {
+                    finish = true;
+                }
+            }
+            if(finish)
             {
                 Global.final.SetActive(true);
                 Global.isPaused = true;
