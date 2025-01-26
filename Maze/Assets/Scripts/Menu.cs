@@ -11,6 +11,7 @@ public class Menu : MonoBehaviour
     public Button[] buttons;
     public List<GameObject[]> selectedCharacters = new List<GameObject[]>();
     public GameObject Player1, Player2, Player3, Player4, Player5, Player6, Player7, Player8, Player9, Player10;
+    public AudioClip audioMenu, buttonSound, audioPlay;
     private List<int> check = new List<int>();
 
     void Start()
@@ -21,13 +22,16 @@ public class Menu : MonoBehaviour
 
     public void Play()
     {
+        MusicManager.Instance.AddSound(buttonSound);
         if (Global.players == null)
         {
             Debug.Log("No hay jugadores en la lista");
             SelectPlayer();
+            MusicManager.Instance.Change(audioMenu);
         }
         else
         {
+            MusicManager.Instance.Change(audioPlay);
             SceneManager.LoadScene("SampleScene");
         }
     }
@@ -87,6 +91,7 @@ public class Menu : MonoBehaviour
 
     public void BackButton()
     {
+        MusicManager.Instance.AddSound(buttonSound);
         Global.players = selectedCharacters;
         selectCP.SetActive(false);
         initialP.SetActive(true);

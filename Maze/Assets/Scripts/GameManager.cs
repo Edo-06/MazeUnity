@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     private bool contains = false;
     private int index;
     public Button[] buttons;
+    public AudioClip timerBoom, boom;
     //private bool isInit = false;
     
     
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
             if(player.character.ability == Abilities.trapDetector)
             player.character.playerTrap = player.character.playerTrapTemp;
         }
+        container0.RevertTraps(Global.allTheTraps);
         ShowTraps();
         abilityText.text = player.character.ability.ToString();
         
@@ -278,6 +280,20 @@ public class GameManager : MonoBehaviour
                 }
                 atackText.text = "Para usar tu habilidad elija sobre que jugador quiere que se aplique el efecto";
             }
+            if(Global.healing)
+            {
+                if(Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    player.character.Heal(20);
+                    Global.healing = false;
+                }
+                if(Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    Global.players[currentPlayer][1].GetComponent<MovPlayer1>().character.Heal(20);
+                    Global.healing = false;
+                }
+
+            }
         }
     }
     void ChangeCamera()
@@ -375,6 +391,13 @@ public class GameManager : MonoBehaviour
         timerText.text = "Tiempo restante: 0";
         menuPanel.SetActive(true);
     }*/
+    private IEnumerator<YieldInstruction> WaitFor()
+    {
+        MusicManager.Instance.AddSound(timerBoom);
+        yield return new WaitForSeconds(5.0f);
+        Boom();
+        MusicManager.Instance.AddSound(boom);
+    }
     void UpdateHealthBars()
     {
         if(player.character.poisoned && count < 3)
@@ -419,7 +442,7 @@ public class GameManager : MonoBehaviour
     }
     public void UseAbility()
     {
-        if(abilityCooldownBar.gameObject.activeSelf)
+        if(abilityCooldownBar.value == player.character.abilityCooldown)
         {
             abilityCooldownBar.gameObject.SetActive(false);
             abilityActiveDurationBar.gameObject.SetActive(true);
@@ -438,10 +461,13 @@ public class GameManager : MonoBehaviour
                     ShowTraps();
                     break;
                 case Abilities.boom:
-                    Boom();
+                    StartCoroutine(WaitFor());
                     break;
                 case Abilities.enhancedMemory:
                     ShowInitialPosition();
+                    break;
+                case Abilities.heal:
+                    Global.healing = true;
                     break;
                 default:
                     Atack();
@@ -611,5 +637,6 @@ public class GameManager : MonoBehaviour
             break;
         }
     }
+
     
 }

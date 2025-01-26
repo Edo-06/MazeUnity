@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Tramp : MonoBehaviour
 {
     System.Random random = new System.Random();
+    public AudioClip trapAudio;
     //private GameObject trampPanel = Global.trampP;
     private TMP_Text trampText = Global.trapT;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,6 +23,7 @@ public class Tramp : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
+        
         if (other.gameObject.CompareTag("Player"))
         {
             int rnd = random.Next(0,3);
@@ -63,20 +65,7 @@ public class Tramp : MonoBehaviour
             Global.trapP.GetComponent<Image>().color = new Color(1,0,0,0.5f);
             Global.isPaused = true;
             Debug.Log("panel de la trampa activado");
-            /*if(other0.transform.position.x < transform.position.x || other0.transform.position.z < transform.position.z)
-            {
-                if(transform.position.x - other0.transform.position.x > transform.position.z - other0.transform.position.z)
-                    other0.transform.position = new Vector3(other0.transform.position.x + 1.5f, other0.transform.position.y, other0.transform.position.z);
-                else
-                    other0.transform.position = new Vector3(other0.transform.position.x, other0.transform.position.y, other0.transform.position.z + 1.5f);
-            }
-            else
-            {
-                if(other0.transform.position.x - transform.position.x  > other0.transform.position.z - transform.position.z)
-                    other0.transform.position = new Vector3(other0.transform.position.x - 1.5f, other0.transform.position.y, other0.transform.position.z);
-                else
-                    other0.transform.position = new Vector3(other0.transform.position.x, other0.transform.position.y, other0.transform.position.z - 1.5f);
-            }*/
+
             switch(rnd)
             {
                 case 0:
