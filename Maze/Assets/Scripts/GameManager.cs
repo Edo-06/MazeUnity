@@ -19,106 +19,13 @@ public class GameManager : MonoBehaviour
     public TMP_Text timerText, trapText, abilityText, healthText, abilityTime, finalT, key, atackText;
     public GameObject menuPanel, deathPanel, trapPanel, selectCharacterPanel, exitPanel, final, atackP;
     public Slider healthBar, abilityCooldownBar,abilityActiveDurationBar;
-    private Container1 container0;
     public Button abilityButton;
-    private MazeMap map0 ;
     private float turnDuration;
     private int[] playerInfo, playerInfo1;
     private bool contains = false;
     private int index;
-    public Button[] buttons;
+    public Button[] buttons; 
     public AudioClip timerBoom, boom;
-    //private bool isInit = false;
-    
-    
-
-    void StartTurn()
-    {
-        //ActivePlayer();
-        ChangeCamera();
-        Global.currentPlayer = currentPlayer;
-        player = Global.players[currentPlayer][Global.index].GetComponent<MovPlayer1>();
-        player.TakeTurn();
-        player.lastPosition = player.transform.position;
-        Debug.Log(player.character.health);
-        turnDuration = player.character.turnDuration;
-        if(player.character.AbilityIsActive())
-        {
-            player.character.currentActiveTime = 0f;
-            if(player.character.ability == Abilities.trapDetector)
-            player.character.playerTrap = player.character.playerTrapTemp;
-        }
-        container0.RevertTraps(Global.allTheTraps);
-        ShowTraps();
-        abilityText.text = player.character.ability.ToString();
-        
-        //StartCoroutine(TurnTimer());
-    }
-    public void EndTurn()
-    {
-        if(player.inmobilized)
-        {
-            player.inmobilized = false;
-            player.character.murdered = true;
-        }
-        if(player.character.IsDead()) player.character.health += 1f;
-        turnDuration = player.character.turnDuration;
-        menuPanel.SetActive(false);
-        deathPanel.SetActive(false);
-        abilityButton.gameObject.SetActive(false);
-        abilityCooldownBar.gameObject.SetActive(true);
-        Global.isPaused = false;
-        Global.onEndTurn = false;
-        if(player.character.ability == Abilities.enhancedMemory)
-            DontShowPosition();
-        if (Global.players.Count == 0)
-        {
-            Debug.LogError("No hay jugadores en la lista");
-            return;
-        }
-        Debug.Log($"Terminando turno Jugador actual: {currentPlayer}, Total de jugadores: {Global.players.Count}");
-        Global.players[currentPlayer][Global.index].SetActive(false);
-        if(container0 != null) 
-            container0.RevertTraps(player.character.playerTrap);
-        currentPlayer = (currentPlayer + 1) % Global.players.Count;
-        //MovPlayer1 player0 = Global.players[currentPlayer][0].GetComponent<MovPlayer1>();
-        //player0.total = 0;
-
-        Debug.Log($"Nuevo jugador activo: {currentPlayer}");
-        Global.players[currentPlayer][Global.index].SetActive(true);
-        StartTurn();
-        playerInfo = new int[] {Global.currentPlayer, Global.index};
-        playerInfo1 = new int[] {Global.currentPlayer, (Global.index + 1)%2};
-        if(Global.atTheGoal.Count > 0)
-        Debug.Log($"{Global.atTheGoal[0][0]}, {Global.atTheGoal[0][1]}");
-        Debug.Log($"{playerInfo[0]}, {playerInfo[1]}");
-        contains = false;
-        foreach(var arr in Global.atTheGoal)
-        {
-            if(arr.SequenceEqual(playerInfo))
-            {
-                contains = true;
-                index = (Global.index + 1)%2;
-            }
-            if(arr.SequenceEqual(playerInfo1))
-            {
-                contains = true;
-                index = Global.index;
-            }
-        }
-        if(contains)
-        {
-            Global.isPaused = true;
-            selectCharacterPanel.SetActive(true);
-            SelectCharacter(index);
-        }
-        else
-        {
-            selectCharacterPanel.SetActive(true);
-            Global.isPaused = true;
-        }
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Global.trapP = trapPanel;
@@ -128,33 +35,24 @@ public class GameManager : MonoBehaviour
         final.SetActive(false);
         trapPanel.SetActive(false);
         selectCharacterPanel.SetActive(false);
-        if(trapPanel != null) Debug.Log("trapPanel no se ha perdido");
-        else Debug.Log("se ha perdio");
         menuPanel.SetActive(false);
         deathPanel.SetActive(false);
         abilityActiveDurationBar.gameObject.SetActive(false);
         abilityButton.gameObject.SetActive(false);
         exitPanel.SetActive(false);
-        //trapPanel.SetActive(false);
         InitPlayers();
-        container0 = container.GetComponent<Container1>();
-        //container1 = container0;
-        container0.playersC = new List<GameObject[]>();
-        container0.Init(size,Global.players);
-        Global.players = container0.playersC;
-        map0 = map.GetComponent<MazeMap>();
-        map0.UpdateUI(grid);
-        Debug.Log($"el count es {Global.players.Count}");
+        Container1.Instance.playersC = new List<GameObject[]>();
+        Container1.Instance.Init(size,Global.players);
+        Global.players = Container1.Instance.playersC;
+        MazeMap.Instance.UpdateUI(grid);
         selectCharacterPanel.SetActive(true);
-        //while(selectCharacterPanel.activeSelf){}
         ActivePlayer();
         selectCharacterPanel.SetActive(true);
         Global.isPaused = true;
         StartTurn();
         DesactiveButtons();
         atackP.SetActive(false);
-        //isInit = true;
-    }
+    }    
 
     // Update is called once per frame
     void Update()
@@ -185,7 +83,6 @@ public class GameManager : MonoBehaviour
             {
                 Global.isPaused = true;
                 Global.onEndTurn = true;
-                //menuPanel.SetActive(true);
             }
         }
         if(count > 0 && !Global.isPaused)
@@ -198,8 +95,7 @@ public class GameManager : MonoBehaviour
                 poisonedTime = 10;
                 player.character.poisoned = false;
             }
-        }
-            
+        }            
         
         if(trapPanel.activeSelf)
             ShowTraps();
@@ -225,7 +121,7 @@ public class GameManager : MonoBehaviour
         {
             abilityTime.text = Mathf.Floor(player.character.currentCooldown).ToString();
         }
-        key.text =$"   {Global.countKey0}    {Global.countKey1}    {Global.countKey2}";
+        key.text =$"   {player.character.countKey0}    {player.character.countKey1}    {player.character.countKey2}";
         if(Global.atack == true)
         {
             if(Input.GetKeyDown(KeyCode.Alpha1))
@@ -250,7 +146,7 @@ public class GameManager : MonoBehaviour
                         Global.players[Global.currentPlayerInmobilized][0].GetComponent<MovPlayer1>().inmobilized = true;
                         break;
                     default:
-                    break;
+                        break;
                 }
                 atackText.text = "Para usar tu habilidad elija sobre que jugador quiere que se aplique el efecto";
             }
@@ -292,10 +188,86 @@ public class GameManager : MonoBehaviour
                     Global.players[currentPlayer][1].GetComponent<MovPlayer1>().character.Heal(20);
                     Global.healing = false;
                 }
-
             }
         }
     }
+
+    void StartTurn()
+    {
+        ChangeCamera();
+        Global.currentPlayer = currentPlayer;
+        player = Global.players[currentPlayer][Global.index].GetComponent<MovPlayer1>();
+        player.lastPosition = player.transform.position;
+        turnDuration = player.character.turnDuration;
+        Container1.Instance.RevertTraps(Global.allTheTraps);
+        if(player.character.AbilityIsActive())
+        {
+            player.character.currentActiveTime = 0f;
+            if(player.character.ability == Abilities.trapDetector)
+            player.character.playerTrap = player.character.playerTrapTemp;
+        }
+        ShowTraps();
+        abilityText.text = player.character.ability.ToString();
+    }
+
+    public void EndTurn()
+    {
+        if(player.inmobilized)
+        {
+            player.inmobilized = false;
+            player.character.murdered = true;
+        }
+
+        if(player.character.IsDead()) player.character.health += 1f;
+
+        turnDuration = player.character.turnDuration;
+        menuPanel.SetActive(false);
+        deathPanel.SetActive(false);
+        abilityButton.gameObject.SetActive(false);
+        abilityCooldownBar.gameObject.SetActive(true);
+        Global.isPaused = false;
+        Global.onEndTurn = false;
+
+        if(player.character.ability == Abilities.enhancedMemory)
+            DontShowPosition();
+
+        Global.players[currentPlayer][Global.index].SetActive(false);
+
+        currentPlayer = (currentPlayer + 1) % Global.players.Count;
+
+        Global.players[currentPlayer][Global.index].SetActive(true);
+        StartTurn();
+        playerInfo = new int[] {Global.currentPlayer, Global.index};
+        playerInfo1 = new int[] {Global.currentPlayer, (Global.index + 1)%2};
+        contains = false;
+
+        foreach(var arr in Global.atTheGoal)
+        {
+            if(arr.SequenceEqual(playerInfo))
+            {
+                contains = true;
+                index = (Global.index + 1)%2;
+            }
+            else if(arr.SequenceEqual(playerInfo1))
+            {
+                contains = true;
+                index = Global.index;
+            }
+        }
+
+        if(contains)
+        {
+            Global.isPaused = true;
+            selectCharacterPanel.SetActive(true);
+            SelectCharacter(index);
+        }
+        else
+        {
+            selectCharacterPanel.SetActive(true);
+            Global.isPaused = true;
+        }
+    }
+
     void ChangeCamera()
     {
         foreach (var player in Global.players)
@@ -377,20 +349,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /*private IEnumerator TurnTimer()
-    {
-        float timeRemaining = turnDuration;
-        while (timeRemaining > 0)
-        {
-            Debug.Log($"Tiempo restante: {timeRemaining:F1}");
-            timerText.text = $"Tiempo restante: {timeRemaining:F1}";
-            yield return new WaitForSeconds(1f);
-            timeRemaining -= 1f;
-        }
-        //yield return new WaitForSeconds(turnDuration);
-        timerText.text = "Tiempo restante: 0";
-        menuPanel.SetActive(true);
-    }*/
     private IEnumerator<YieldInstruction> WaitFor()
     {
         MusicManager.Instance.AddSound(timerBoom);
@@ -415,6 +373,7 @@ public class GameManager : MonoBehaviour
         healthBar.value = player.character.health;
         
     }
+
     void UpdateCooldowns()
     {
         player.character.UpdateCooldowns(Time.deltaTime);
@@ -440,6 +399,7 @@ public class GameManager : MonoBehaviour
         else 
             abilityCooldownBar.gameObject.SetActive(false);
     }
+
     public void UseAbility()
     {
         if(abilityCooldownBar.value == player.character.abilityCooldown)
@@ -458,6 +418,8 @@ public class GameManager : MonoBehaviour
             switch(player.character.ability)
             {
                 case Abilities.trapDetector:
+                    player.character.playerTrapTemp = player.character.playerTrap;
+                    player.character.playerTrap = Global.allTheTraps;
                     ShowTraps();
                     break;
                 case Abilities.boom:
@@ -469,19 +431,23 @@ public class GameManager : MonoBehaviour
                 case Abilities.heal:
                     Global.healing = true;
                     break;
+                case Abilities.teleport:
+                    break;
                 default:
                     Atack();
                     break;
             }
         }
     }
+
     void ShowTraps()
     {
         if(player.character.playerTrap.Count != 0)
         {
-            if(container0 != null) container0.ShowTamps(player.character.playerTrap);
+            Container1.Instance.ShowTamps(player.character.playerTrap);
         }
     }
+
     void Boom()
     {
         Desactivate(SearchCollidersAt(player.transform.position.x, player.transform.position.z + 1), "Wall");
@@ -489,12 +455,14 @@ public class GameManager : MonoBehaviour
         Desactivate(SearchCollidersAt(player.transform.position.x - 1, player.transform.position.z), "Wall");
         Desactivate(SearchCollidersAt(player.transform.position.x + 1, player.transform.position.z), "Wall");
     }
+
     Collider[] SearchCollidersAt(float x, float z)
     {
         Vector3 position = new Vector3(x, 0.25f, z);
         Collider[] colliders = Physics.OverlapSphere(position, 0.1f);
         return colliders;
     }
+
     void Desactivate(Collider[] colliders, string tag)
     {
         if(colliders != null)
@@ -506,42 +474,40 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     void ShowInitialPosition()
     {
-        map0.Change((player.character.initialX-1)*size + player.character.initialZ, Color.red);
-        Debug.Log($"{player.character.initialX}, {player.character.initialZ}");
+        MazeMap.Instance.Change((player.character.initialX-1)*size + player.character.initialZ, Color.red);
     }
+
     void DontShowPosition()
     {
-        map0.Change((player.character.initialX-1)*size + player.character.initialZ, new Color(1f, 1f, 1f, 0.5f));
-        Debug.Log($"{player.character.initialX}, {player.character.initialZ}");
+        MazeMap.Instance.Change((player.character.initialX-1)*size + player.character.initialZ, new Color(1f, 1f, 1f, 0.5f));
     }
-    void DesactivateGates()
-    {
-        Desactivate(SearchCollidersAt(player.transform.position.x, player.transform.position.z + 1), "Gate");
-        Desactivate(SearchCollidersAt(player.transform.position.x, player.transform.position.z - 1), "Gate");
-        Desactivate(SearchCollidersAt(player.transform.position.x - 1, player.transform.position.z), "Gate");
-        Desactivate(SearchCollidersAt(player.transform.position.x + 1, player.transform.position.z), "Gate");
-    }
+
     public void Character1()
     {
         SelectCharacter(0);
     }
+
     public void Character2()
     {
         SelectCharacter(1);
     }
+
     public void ExitToMenu()
     {
         Global.players = null;
         Global.isPaused = false;
         SceneManager.LoadScene("Menu");
     }
+
     public void Continue()
     {
         Global.isPaused = false;
         exitPanel. SetActive(false);
     }
+
     void SelectCharacter(int index)
     {
         Global.players[currentPlayer][Global.index].SetActive(false);
@@ -551,6 +517,7 @@ public class GameManager : MonoBehaviour
         Global.isPaused = false;
         StartTurn();
     }
+
     void Atack()
     {
         atackP.SetActive(true);
@@ -584,6 +551,7 @@ public class GameManager : MonoBehaviour
             j++;
         }
     }
+
     void DesactiveButtons()
     {
         for(int i = 0; i < buttons.Length; i++)
@@ -591,31 +559,37 @@ public class GameManager : MonoBehaviour
             buttons[i].gameObject.SetActive(false);
         }
     }
+
     void AtackPlayer0()
     {
         AtackPlayer(0);
     }
+
     void AtackPlayer1()
     {
         AtackPlayer(1);
     }
+
     void AtackPlayer2()
     {
         AtackPlayer(2);
     }
+
     void AtackPlayer3()
     {
         AtackPlayer(3);
     }
+
     void AtackPlayer4()
     {
         AtackPlayer(4);
     }
+
     void AtackPlayer(int playerIndex)
     {
         DesactiveButtons();
         Global.atack = true;
-        atackText.text = "Presione 1 para usar su habilidad sobre el personaje pasivo y 2 para usar su habilidad sobre el personaje activo";
+        atackText.text = "Presione 1 para usar su habilidad sobre el SABIO y 2 para usar su habilidad sobre el MATÓN";
         switch (player.character.ability)
         {
             case Abilities.poison:
@@ -634,9 +608,7 @@ public class GameManager : MonoBehaviour
                 Global.currentPlayerInmobilized = playerIndex;
                 break;
             default:
-            break;
+                break;
         }
-    }
-
-    
+    }    
 }

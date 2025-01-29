@@ -13,5 +13,4 @@ public class Global
     public static int currentPlayer, currentPlayerPoisoned, currentPlayerAtacked, currentPlayerCurse, currentPlayerMurdered, currentPlayerInmobilized, index = 0;
     public static List<int[]> allTheTraps = new List<int[]>();
     public static List<int[]> atTheGoal = new List<int[]>();
-    public static int countKey0, countKey1, countKey2;
 }

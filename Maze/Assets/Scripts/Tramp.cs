@@ -3,32 +3,18 @@ using TMPro;
 using System;
 using UnityEngine.UI;
 
-
 public class Tramp : MonoBehaviour
 {
     System.Random random = new System.Random();
     public AudioClip trapAudio;
-    //private GameObject trampPanel = Global.trampP;
     private TMP_Text trampText = Global.trapT;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     void OnTriggerEnter(Collider other)
     {
         
         if (other.gameObject.CompareTag("Player"))
         {
             int rnd = random.Next(0,3);
-            //rnd = 0;
-            Debug.Log("trampita");
             MovPlayer1 other0 = other.GetComponent<MovPlayer1>();
             int x = (int)Math.Floor(transform.position.x);
             int z = (int)Math.Floor(transform.position.z);
@@ -45,8 +31,7 @@ public class Tramp : MonoBehaviour
                 {
                     other0.transform.position = new Vector3(other0. transform.position.x + 1.5f, other0.transform.position.y, other0.transform.position.z);
                     position = "x-";
-                }
-                
+                }                
             }
             else
             {
@@ -64,7 +49,6 @@ public class Tramp : MonoBehaviour
             Global.trapP.SetActive(true);
             Global.trapP.GetComponent<Image>().color = new Color(1,0,0,0.5f);
             Global.isPaused = true;
-            Debug.Log("panel de la trampa activado");
 
             switch(rnd)
             {
@@ -91,6 +75,7 @@ public class Tramp : MonoBehaviour
             }
         }
     }
+
     public void ButtonAceptar()
     {
         Global.trapP.SetActive(false);

@@ -17,8 +17,6 @@ public enum Abilities
     enhancedMemory,
     killer,
     inmobilize,
-    //dash,
-
 }
 
 public class Character
@@ -35,6 +33,7 @@ public class Character
     public List<int[]> playerTrapTemp = new List<int[]>();
     public float turnDuration;
     public bool poisoned = false, cursed = false, murdered = false;
+    public int countKey0, countKey1, countKey2;
     
     public Character(float health, float maxHealth, float speed, string skill, float turnDuration, int initialX = 0, int initialZ = 0)
     {
@@ -53,6 +52,7 @@ public class Character
     {
         return health < 2f;
     }
+
     public bool AbilityIsActive()
     {
         return currentActiveTime > 0;
@@ -72,24 +72,7 @@ public class Character
         {
             Debug.Log($"Using ability: {ability}");
             currentActiveTime = abilityActiveDuration;
-            // lo que hace la habilidad
-            switch(ability)
-            {
-                case Abilities.trapDetector:
-                    playerTrapTemp = playerTrap;
-                    playerTrap = Global.allTheTraps;
-                    break;
-                case Abilities.heal:
-                    health +=10f;
-                    break;
-                case Abilities.boom:
-                    break;
-                case Abilities.enhancedMemory:
-                    break;
-                case Abilities.teleport:
-                    break;
-            }
-        }
+        } 
         else
         {
             Debug.Log($"{ability} is on cooldown");
@@ -103,8 +86,8 @@ public class Character
             if (currentCooldown <= abilityCooldown && currentActiveTime <= 0)
             {
                 currentCooldown += deltaTime;
-            }
-            if (currentActiveTime > 0)
+            } 
+            else if (currentActiveTime > 0)
             {
                 currentActiveTime -= deltaTime;
                 if (currentActiveTime <= 0)
@@ -117,6 +100,7 @@ public class Character
         }
         
     }
+
     public void TakeDamage(float amount)
     {
         health -= amount;
@@ -125,6 +109,7 @@ public class Character
             health = 0;
         }
     }
+
     public void Heal(float amount)
     {
         health += amount;
@@ -133,6 +118,4 @@ public class Character
             health = maxHealth;
         }
     }
-
-
 }

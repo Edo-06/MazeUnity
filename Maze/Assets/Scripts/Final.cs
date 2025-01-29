@@ -7,11 +7,13 @@ public class Final : MonoBehaviour
 {
     public Button btn1, btn2;
     private bool finish = false;
+
     void Start()
     {
         btn1.gameObject.SetActive(false);
         btn2.gameObject.SetActive(false);
     }
+
     void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -45,10 +47,12 @@ public class Final : MonoBehaviour
             }
         }
     }
+
     public void ClickF()
     {
         SceneManager.LoadScene("Menu");
     }
+    
     public void Click()
     {
         Global.final.SetActive(false);

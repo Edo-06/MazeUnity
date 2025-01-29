@@ -25,7 +25,6 @@ public class Menu : MonoBehaviour
         MusicManager.Instance.AddSound(buttonSound);
         if (Global.players == null)
         {
-            Debug.Log("No hay jugadores en la lista");
             SelectPlayer();
             MusicManager.Instance.Change(audioMenu);
         }

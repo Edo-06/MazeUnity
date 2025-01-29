@@ -7,36 +7,29 @@ public class MazeMap : MonoBehaviour
     public GameObject container;
     public Transform canvas;
     private Transform grid;
+    public static MazeMap Instance;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if(Instance == null)
+        {
+            Instance = this;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void UpdateUI(Transform gridParent)
     {
         Container1 container0 = container.GetComponent<Container1>();
-        Debug.Log("ejecutao");
         Transform canvas0 = Instantiate(canvas);
         grid = Instantiate(gridParent);
         grid.transform.SetParent(canvas0.transform,false);
-        //grid.transform.localScale = new Vector3(0.02f,0.02f);
-        /*GameObject cell0 = Instantiate(cell,new Vector3(40, 40, 0), Quaternion.identity);
-        cell0.transform.localScale = new Vector3(0.05f,0.05f,0.05f);
-        cell0.transform.SetParent(grid, false);
-        Image cellImage = cell0.GetComponent<Image>();
-        cellImage.color = Color.black;*/
+
         for (int i = 0; i < container0.size; i++)
         {
             for (int j = 0; j < container0.size; j++)
             {
-                GameObject cell0 = Instantiate(cell/*new Vector3(i, j, 0), Quaternion.identity*/);
-                //cell0.transform.localScale = new Vector3(0.08f,0.08f,0.08f);
+                GameObject cell0 = Instantiate(cell);
                 cell0.transform.SetParent(grid, false);
                 Image cellImage = cell0.GetComponent<Image>();
 
@@ -55,17 +48,13 @@ public class MazeMap : MonoBehaviour
             }
         }
     }
+
     public void Change(int index, Color color)
     {
-        Debug.Log("aqui si");
-        Debug.Log(grid.transform.childCount);
         if(grid.transform.childCount > index)
         {
-            Debug.Log("en el if");
             Transform child = grid.transform.GetChild(index);
-            Debug.Log("medio");
             child.GetComponent<Image>().color = color;
-            Debug.Log("despues de");
         }
     }
 }
