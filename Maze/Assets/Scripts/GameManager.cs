@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if(!deathPanel.activeSelf && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf && !final.activeSelf && !atackP.activeSelf)
+            if(!deathPanel.activeSelf && !trapPanel.activeSelf && !selectCharacterPanel.activeSelf && !final.activeSelf && !atackP.activeSelf && !exitPanel.activeSelf)
             {
                 Global.isPaused = true;
                 Global.onEndTurn = true;
@@ -279,8 +279,6 @@ public class GameManager : MonoBehaviour
         }
         MovPlayer1 player1 = Global.players[currentPlayer][Global.index].GetComponent<MovPlayer1>();
         player1.ActivateCamera();
-        //Camera.main.transform.position = Global.players[currentPlayer].transform.position + new Vector3(0,2,-6);
-        //Camera.main.transform.LookAt(Global.players[currentPlayer].transform.position);
     }
     
     void ActivePlayer()
@@ -298,55 +296,23 @@ public class GameManager : MonoBehaviour
 
     void InitPlayers()
     {
-        InitPLayer(Player1, 100, 100, 10, 40f, "s1");
-        InitPLayer(Player2, 20, 20, 10, 35f, "s2");
-        InitPLayer(Player3, 100, 100, 10, 30f, "s3");
-        InitPLayer(Player4, 100, 100, 10, 45f, "s4");
-        InitPLayer(Player5, 100, 100, 10, 50f, "s5");
-        InitPLayer(Player6, 100, 100, 10, 25f, "s6");
-        InitPLayer(Player7, 100, 100, 10, 40f, "s7");
-        InitPLayer(Player8, 100, 100, 10, 35f, "s8");
-        InitPLayer(Player9, 100, 100, 10, 30f, "s9");
-        InitPLayer(Player10, 100, 100, 10, 45f, "s10");
+        InitPLayer(Player1, 100, 100, 10, 40f, Abilities.atack, 5f, 2f);
+        InitPLayer(Player2, 20, 20, 10, 35f, Abilities.trapDetector, 15f, 20f);
+        InitPLayer(Player3, 100, 100, 10, 30f, Abilities.boom, 240f, 1f);
+        InitPLayer(Player4, 100, 100, 10, 45f, Abilities.inmobilize, 5f, 1f);
+        InitPLayer(Player5, 100, 100, 10, 50f, Abilities.heal, 20f, 1f);
+        InitPLayer(Player6, 100, 100, 10, 25f, Abilities.killer, 15f, 2f);
+        InitPLayer(Player7, 100, 100, 10, 40f, Abilities.enhancedMemory, 60f, 20f);
+        InitPLayer(Player8, 100, 100, 10, 35f, Abilities.poison, 10f, 2f);
+        InitPLayer(Player9, 100, 100, 10, 30f, Abilities.teleport, 15f, 3f);
+        InitPLayer(Player10, 100, 100, 10, 45f, Abilities.curse, 5f, 1f);
     }
 
-    void InitPLayer(GameObject player, float health, float maxHealth, float speed, float turnD, string skill)
+    void InitPLayer(GameObject player, float health, float maxHealth, float speed, float turnD, Abilities ability, float abilityCooldown, float abilityActiveDuration)
     {
         MovPlayer1 player1 = player.GetComponent<MovPlayer1>();
-        player1.character = new Character(health, maxHealth, speed, skill, turnD);
-        switch (skill)
-        {
-            case "s1":
-                player1.character.SetAbility(Abilities.atack, 5f, 2f);
-                break;
-            case "s2":
-                player1.character.SetAbility(Abilities.trapDetector, 15f, 20f);
-                break;
-            case "s3":
-                player1.character.SetAbility(Abilities.boom, 240f, 1f);
-                break;
-            case "s4":
-                player1.character.SetAbility(Abilities.inmobilize, 5f, 1f);
-                break;
-            case "s5":
-                player1.character.SetAbility(Abilities.heal, 20f, 1f);
-                break;
-            case "s6":
-                player1.character.SetAbility(Abilities.killer, 15f, 2f);
-                break;
-            case "s7":
-                player1.character.SetAbility(Abilities.enhancedMemory, 60f, 20f);
-                break;
-            case "s8":
-                player1.character.SetAbility(Abilities.poison, 10f, 2f);
-                break;
-            case "s9":
-                player1.character.SetAbility(Abilities.teleport, 15f, 3f);
-                break;
-            case "s10":
-                player1.character.SetAbility(Abilities.curse, 5f, 1f);
-                break;
-        }
+        player1.character = new Character(health, maxHealth, speed, ability, turnD);
+        player1.character.SetAbility(ability, abilityCooldown, abilityActiveDuration);
     }
 
     private IEnumerator<YieldInstruction> WaitFor()

@@ -35,11 +35,11 @@ public class Character
     public bool poisoned = false, cursed = false, murdered = false;
     public int countKey0, countKey1, countKey2;
     
-    public Character(float health, float maxHealth, float speed, string skill, float turnDuration, int initialX = 0, int initialZ = 0)
+    public Character(float health, float maxHealth, float speed, Abilities ability, float turnDuration, int initialX = 0, int initialZ = 0)
     {
         this.health = health;
         this.speed = speed;
-        this.skill = skill;
+        this.ability = ability;
         this.maxHealth = maxHealth;
         this.turnDuration = turnDuration;
         this.initialX = initialX;
@@ -98,7 +98,6 @@ public class Character
                 }
             }
         }
-        
     }
 
     public void TakeDamage(float amount)
@@ -119,3 +118,4 @@ public class Character
         }
     }
 }
+

@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 272270836270908175}
   - component: {fileID: 5181155767941928675}
   - component: {fileID: 7763326257387302490}
-  - component: {fileID: -3645751087042463512}
   - component: {fileID: 4126586741492330199}
   m_Layer: 0
   m_Name: Player1
@@ -160,17 +159,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keys: []
-  rb: {fileID: 0}
   playerCamera: {fileID: 3742988954470893827}
   gameManager: {fileID: 3115026016874365655, guid: 0f8a147260ca6e743939b0c23cca26bc,
     type: 3}
-  speed: 5
-  rotationSpeed: 128
-  i: 0
   container: {fileID: 8107249680146498121, guid: 380b7de3fa481564c9979efb80557a21,
     type: 3}
   lastPosition: {x: 0, y: 0, z: 0}
   total: 0
+  inmobilized: 0
+  Instance: {fileID: 0}
 --- !u!20 &7763326257387302490
 Camera:
   m_ObjectHideFlags: 0
@@ -222,19 +219,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &-3645751087042463512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 303475615643290514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dfb70be7188e4446bc27b3af0bfaafc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
 --- !u!223 &4126586741492330199
 Canvas:
   m_ObjectHideFlags: 0

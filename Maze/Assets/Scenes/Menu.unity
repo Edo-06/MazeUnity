@@ -7923,7 +7923,9 @@ PrefabInstance:
     - target: {fileID: 3477384505361364774, guid: de49170484803b04d9f7f379faac3236,
         type: 3}
       propertyPath: m_text
-      value: Personajes
+      value: 'Historia
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 3477384505361364774, guid: de49170484803b04d9f7f379faac3236,
         type: 3}
