@@ -555,7 +555,7 @@ public class GameManager : MonoBehaviour
     {
         DesactiveButtons();
         Global.atack = true;
-        atackText.text = "Presione 1 para usar su habilidad sobre el SABIO y 2 para usar su habilidad sobre el MATÓN";
+        atackText.text = "Presione 1 para usar su habilidad sobre el ESTRATEGA y 2 para usar su habilidad sobre el GUERRERO";
         switch (player.character.ability)
         {
             case Abilities.poison:
