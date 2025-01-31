@@ -24,16 +24,22 @@ En un mundo donde las emociones han sido suprimidas, un grupo de valientes se al
 
 ### Requisitos del Sistema:
 - Unity 6000.0.25.f1
-- Conexión a internet para jugar en línea.
 
 ### Instrucciones de Instalación:
 1. Clona el repositorio:
    
 bash
-   git clone URLdelrepositorio
+   git clone [URLdelrepositori](https://github.com/Edo-06/MazeUnity.git)
    
 2. Abre Unity y carga el proyecto desde la carpeta clonada.
 3. Presiona "Play" para comenzar a jugar.
+
+### Descargar el juego directamente:
+1. Navega a la sección de Releases de la página del repositorio: [https://github.com/Edo-06/MazeUnity.git](https://github.com/Edo-06/MazeUnity.git)
+2. Haz clic en la pestaña ¨Releases¨ que se encuentra en la parte superior del repositorio.
+3. Selecciona ¨Encapsulado¨.
+4. Descarga el archivo .zip.
+5. Descomprime el archivo y encontrarás el juego.
 
 ---
 
