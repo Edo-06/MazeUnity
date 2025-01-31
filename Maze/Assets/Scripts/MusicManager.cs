@@ -4,6 +4,8 @@ public class MusicManager : MonoBehaviour
 {
     public static MusicManager Instance;
     public AudioSource audioSource;
+    public AudioClip timerBoom, boom;
+    public AudioClip audioMenu, buttonSound, audioPlay;
     
     void Start()
     {

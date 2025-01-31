@@ -8256,6 +8256,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1498213445108267974, guid: 2623107248a8c064a8adb8e7905341fc,
+        type: 3}
+      propertyPath: boom
+      value: 
+      objectReference: {fileID: 8300000, guid: e059f2d597309e7499a9088439168fa2, type: 3}
+    - target: {fileID: 1498213445108267974, guid: 2623107248a8c064a8adb8e7905341fc,
+        type: 3}
+      propertyPath: audioMenu
+      value: 
+      objectReference: {fileID: 8300000, guid: b967dc91c13766b46ac88398253aecee, type: 3}
+    - target: {fileID: 1498213445108267974, guid: 2623107248a8c064a8adb8e7905341fc,
+        type: 3}
+      propertyPath: audioPlay
+      value: 
+      objectReference: {fileID: 8300000, guid: 2ba0bc3111b30d2499d91fdd7c78c088, type: 3}
+    - target: {fileID: 1498213445108267974, guid: 2623107248a8c064a8adb8e7905341fc,
+        type: 3}
+      propertyPath: timerBoom
+      value: 
+      objectReference: {fileID: 8300000, guid: ab088582d3870af4b8daf212cf7ae3d4, type: 3}
+    - target: {fileID: 1498213445108267974, guid: 2623107248a8c064a8adb8e7905341fc,
+        type: 3}
+      propertyPath: buttonSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 8204c0a419f480a49bf1e6eea2b9fd95, type: 3}
     - target: {fileID: 2931365105790683972, guid: 2623107248a8c064a8adb8e7905341fc,
         type: 3}
       propertyPath: m_Name

@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     private bool contains = false;
     private int index;
     public Button[] buttons; 
-    public AudioClip timerBoom, boom;
     void Start()
     {
         Global.trapP = trapPanel;
@@ -317,10 +316,10 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator<YieldInstruction> WaitFor()
     {
-        MusicManager.Instance.AddSound(timerBoom);
+        MusicManager.Instance.AddSound(MusicManager.Instance.timerBoom);
         yield return new WaitForSeconds(5.0f);
         Boom();
-        MusicManager.Instance.AddSound(boom);
+        MusicManager.Instance.AddSound(MusicManager.Instance.boom);
     }
     void UpdateHealthBars()
     {
@@ -465,6 +464,7 @@ public class GameManager : MonoBehaviour
     {
         Global.players = null;
         Global.isPaused = false;
+        MusicManager.Instance.Change(MusicManager.Instance.audioMenu);
         SceneManager.LoadScene("Menu");
     }
 
