@@ -2,70 +2,59 @@
 
 ![Encapsulados](https://example.com/imagen_del_juego.png) <!-- Reemplaza con la URL de tu imagen -->
 
-## 📖 Historia
+## 📜 Sinopsis
 
-En un futuro donde la humanidad ha perdido su esencia emocional, un grupo de científicos crea las **Cápsulas**, entidades que combinan el **Estratega** y el **Guerrero**. Juntos deben navegar un laberinto lleno de trampas y enemigos para recuperar el **Corazón de la Humanidad**, un artefacto que simboliza la conexión emocional perdida.
-
----
-
-## 🎮 Descripción del Juego
-
-**Encapsulados** es un juego multijugador por turnos donde los jugadores deben llegar a un objetivo en un laberinto cambiante, enfrentándose a trampas y a otros jugadores.
-
-### Género:
-- Estrategia multijugador (PvP).
-
-### Tecnologías Utilizadas:
-- **C#**
-- **Unity**
-- **Git**
-
-### Mecánica del Juego:
-- **Objetivo**: Llevar a los personajes al objeto señalado.
-- **Turnos**: Los jugadores seleccionan un personaje por turno para explorar y usar habilidades.
-- **Habilidades**:
-  - **Estrategas**: Habilidades estratégicas, no pueden atacar.
-  - **Guerreros**: Habilidades ofensivas para defenderse.
-
-- **Obstáculos y Trampas**: Los jugadores deben ser cautelosos con trampas y puertas que requieren habilidades específicas para abrirse.
-
-### Laberinto Dinámico:
-El laberinto se genera aleatoriamente al inicio de cada partida, lo que añade un elemento de sorpresa y estrategia.
+En un mundo donde las emociones han sido suprimidas, un grupo de valientes se alza para recuperar lo que se ha perdido. **Encapsulados** te sumerge en una aventura estratégica donde cada decisión cuenta. Forma un equipo con los **Estrategas** y **Guerreros**, y navega a través de un laberinto lleno de peligros y sorpresas.
 
 ---
 
-## 🚀 Ejecución del Proyecto
+## 🎮 ¿Qué es Encapsulados?
 
-### Requisitos:
+**Encapsulados** es un juego multijugador por turnos que desafía tu ingenio y estrategia. Enfréntate a otros jugadores mientras luchas por alcanzar el **Corazón de la Humanidad**, un artefacto que puede restaurar la conexión emocional de la humanidad.
+
+### Características Clave:
+- **Modos de Juego**: Multijugador.
+- **Personajes Únicos**: Escoge entre Estrategas que planifican y Guerreros que atacan.
+- **Laberintos Dinámicos**: Cada partida ofrece un nuevo desafío con laberintos generados aleatoriamente.
+- **Trampas y Obstáculos**: Tácticas y habilidades son esenciales para sobrevivir.
+
+---
+
+## 🚀 Cómo Empezar
+
+### Requisitos del Sistema:
 - Unity 6000.0.25.f1
+- Conexión a internet para jugar en línea.
 
-### Pasos para Ejecutar el Proyecto:
-1. Clona el repositorio de GitHub:
+### Instrucciones de Instalación:
+1. Clona el repositorio:
    
 bash
    git clone URLdelrepositorio
    
-2. Abre Unity Hub y selecciona “Abrir proyecto” en la carpeta del proyecto clonado.
-3. Corre el proyecto pulsando el botón play en Unity.
+2. Abre Unity y carga el proyecto desde la carpeta clonada.
+3. Presiona "Play" para comenzar a jugar.
 
 ---
 
-## 🎮 Instrucciones para Jugar
-1. Selecciona tu cápsula (Estratega o Guerrero).
-2. Usa habilidades estratégicamente para avanzar.
-3. Colabora con tu compañero y evita trampas.
-4. Llega al Corazón de la Humanidad antes que tus oponentes.
+## 🎯 Cómo Jugar
+1. **Elige tu Personaje**: Decide si serás un Estratega o un Guerrero.
+2. **Planifica tu Movimiento**: Utiliza tus habilidades sabiamente para avanzar.
+3. **Colabora o Compite**: Trabaja con tus compañeros o enfréntalos en el camino hacia el objetivo.
+4. **Sobrevive a las Trampas**: Mantente alerta ante los peligros ocultos en el laberinto.
 
 ---
 
 ## 🤝 Contribuciones
-¡Contribuciones son bienvenidas! Haz un fork del repositorio y envía tus mejoras.
+
+Si tienes ideas, mejoras o quieres reportar errores, no dudes en hacer un fork del repositorio y enviar tus cambios.
 
 ---
 
-## ⚖️ Licencia
-Este proyecto está bajo la licencia MIT.
+## 📄 Licencia
+
+Este proyecto está bajo la licencia MIT, lo que significa que puedes usarlo, modificarlo y distribuirlo libremente.
 
 ---
 
-🎉 ¡Gracias por explorar **Encapsulados**! ¡Que comience la aventura! 🌟
+🌟 ¡Únete a la lucha por las emociones en **Encapsulados** y demuestra que la estrategia y la valentía pueden cambiar el destino de la humanidad! 🌟
