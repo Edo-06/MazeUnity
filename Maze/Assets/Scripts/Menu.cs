@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 
 public class Menu : MonoBehaviour
 {
-    public GameObject initialP, selectCP;
+    public GameObject initialP, selectCP, abilitiesP;
     public Button playB;
     public Button[] buttons;
     public List<GameObject[]> selectedCharacters = new List<GameObject[]>();
@@ -17,6 +17,8 @@ public class Menu : MonoBehaviour
     {
         selectCP.SetActive(false);
         playB.gameObject.SetActive(false);
+        abilitiesP.SetActive(false);
+
     }
 
     public void Play()
@@ -38,11 +40,21 @@ public class Menu : MonoBehaviour
     {
         Application.Quit();
     }
-
     public void SelectPlayer()
     {
         initialP.SetActive(false);
         selectCP.SetActive(true);
+    }
+    public void Abilities()
+    {
+        initialP.SetActive(false);
+        abilitiesP .SetActive(true);
+    }
+    public void Back()
+    {
+        MusicManager.Instance.AddSound(MusicManager.Instance.buttonSound);
+        initialP.SetActive(true);
+        abilitiesP.SetActive(false);
     }
 
     void SelectCharacter(GameObject[] characters, int index)
