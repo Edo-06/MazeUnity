@@ -75,6 +75,10 @@ public class GameManager : MonoBehaviour
         {
             turnDuration -= Time.deltaTime;
             timerText.text = $"Tiempo restante: {Mathf.Ceil(turnDuration).ToString()}";
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                UseAbility();
+            }
         }
         else
         {
@@ -107,10 +111,6 @@ public class GameManager : MonoBehaviour
             Global.isPaused = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            UseAbility();
-        }
         healthText.text = Mathf.Ceil(player.character.health).ToString();
         if(abilityActiveDurationBar.gameObject.activeSelf)
         {
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
         {
             abilityTime.text = Mathf.Floor(player.character.currentCooldown).ToString();
         }
-        key.text =$"   {player.character.countKey0}    {player.character.countKey1}    {player.character.countKey2}";
+        key.text =$" R{player.character.countKey0}  M{player.character.countKey1}  V{player.character.countKey2}";
         if(Global.atack == true)
         {
             if(Input.GetKeyDown(KeyCode.Alpha1))
@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
                     default:
                         break;
                 }
+                Global.atack = false;
                 atackText.text = "Para usar tu habilidad elija sobre que jugador quiere que se aplique el efecto";
             }
             if(Input.GetKeyDown(KeyCode.Alpha2))
@@ -173,6 +174,7 @@ public class GameManager : MonoBehaviour
                     default:
                     break;
                 }
+                Global.atack = false;
                 atackText.text = "Para usar tu habilidad elija sobre que jugador quiere que se aplique el efecto";
             }
             if(Global.healing)
@@ -295,22 +297,22 @@ public class GameManager : MonoBehaviour
 
     void InitPlayers()
     {
-        InitPLayer(Player1, 100, 100, 10, 40f, Abilities.atack, 5f, 2f);
-        InitPLayer(Player2, 20, 20, 10, 35f, Abilities.trapDetector, 15f, 20f);
-        InitPLayer(Player3, 100, 100, 10, 30f, Abilities.boom, 240f, 1f);
-        InitPLayer(Player4, 100, 100, 10, 45f, Abilities.inmobilize, 5f, 1f);
-        InitPLayer(Player5, 100, 100, 10, 50f, Abilities.heal, 20f, 1f);
-        InitPLayer(Player6, 100, 100, 10, 25f, Abilities.killer, 15f, 2f);
-        InitPLayer(Player7, 100, 100, 10, 40f, Abilities.enhancedMemory, 60f, 20f);
-        InitPLayer(Player8, 100, 100, 10, 35f, Abilities.poison, 10f, 2f);
-        InitPLayer(Player9, 100, 100, 10, 30f, Abilities.teleport, 15f, 3f);
-        InitPLayer(Player10, 100, 100, 10, 45f, Abilities.curse, 5f, 1f);
+        InitPLayer(Player1, 40, 10, 30f, Abilities.atack, 12f, 1f);
+        InitPLayer(Player2, 50, 10, 30f, Abilities.trapDetector, 40f, 20f);
+        InitPLayer(Player3, 50, 10, 25f, Abilities.boom, 60f, 1f);
+        InitPLayer(Player4, 40, 10, 25f, Abilities.inmobilize, 80f, 1f);
+        InitPLayer(Player5, 30, 10, 35f, Abilities.heal, 20f, 1f);
+        InitPLayer(Player6, 20, 10, 40f, Abilities.killer, 100f, 1f);
+        InitPLayer(Player7, 30, 10, 15f, Abilities.enhancedMemory, 200f, 10f);
+        InitPLayer(Player8, 30, 10, 35f, Abilities.poison, 50f, 1f);
+        InitPLayer(Player9, 40, 10, 20f, Abilities.teleport, 40f, 5f);
+        InitPLayer(Player10, 30, 10, 25f, Abilities.curse, 40f, 1f);
     }
 
-    void InitPLayer(GameObject player, float health, float maxHealth, float speed, float turnD, Abilities ability, float abilityCooldown, float abilityActiveDuration)
+    void InitPLayer(GameObject player, float health, float speed, float turnD, Abilities ability, float abilityCooldown, float abilityActiveDuration)
     {
         MovPlayer1 player1 = player.GetComponent<MovPlayer1>();
-        player1.character = new Character(health, maxHealth, speed, ability, turnD);
+        player1.character = new Character(health, health, speed, ability, turnD);
         player1.character.SetAbility(ability, abilityCooldown, abilityActiveDuration);
     }
 
@@ -325,7 +327,7 @@ public class GameManager : MonoBehaviour
     {
         if(player.character.poisoned && count < 3)
         {
-            player.character.TakeDamage(5*Time.deltaTime);
+            player.character.TakeDamage(2*Time.deltaTime);
             poisonedTime -= Time.deltaTime;
         }
         if(count < 1)
@@ -529,32 +531,36 @@ public class GameManager : MonoBehaviour
     void AtackPlayer0()
     {
         AtackPlayer(0);
+        Global.atack = true;
     }
 
     void AtackPlayer1()
     {
         AtackPlayer(1);
+        Global.atack = true;
     }
 
     void AtackPlayer2()
     {
         AtackPlayer(2);
+        Global.atack = true;
     }
 
     void AtackPlayer3()
     {
         AtackPlayer(3);
+        Global.atack = true;
     }
 
     void AtackPlayer4()
     {
         AtackPlayer(4);
+        Global.atack = true;
     }
 
     void AtackPlayer(int playerIndex)
     {
         DesactiveButtons();
-        Global.atack = true;
         atackText.text = "Presione 1 para usar su habilidad sobre el ESTRATEGA y 2 para usar su habilidad sobre el GUERRERO";
         switch (player.character.ability)
         {

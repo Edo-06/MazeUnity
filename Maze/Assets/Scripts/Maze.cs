@@ -149,7 +149,7 @@ public class Maze
     private void Keys()
     {
         int row, col;
-        for(int i = 0; i <= 2 ; i++)
+        for(int i = 0; i <= 4 ; i++)
         {
             for(int j=0; j < obstacleTypes.Count;)
             {

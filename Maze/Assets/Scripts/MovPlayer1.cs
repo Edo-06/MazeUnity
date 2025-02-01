@@ -12,12 +12,11 @@ public class MovPlayer1 : MonoBehaviour
     public List<string> keys; 
     public Camera playerCamera;
     public GameManager gameManager;
-    private float speed = 4f;
-    private float rotationSpeed = 128;
+    private float speed = 2f;
+    private float rotationSpeed = 90f;
     public Character character;
     public GameObject container;
     public Vector3 lastPosition;
-    public float total = 0f;
     public bool inmobilized = false;
     public MovPlayer1 Instance;
 
